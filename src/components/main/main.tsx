@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+import { selectGuitars } from '../../store/data/data-selectors';
 import Header from '../header/header';
 import Filter from '../filter/filter';
 import Sort from '../sort/sort';
@@ -6,6 +8,8 @@ import Pagination from '../pagination/pagination';
 import Footer from '../footer/footer';
 
 function Main(): JSX.Element {
+  const guitars = useSelector(selectGuitars);
+
   return (
     <>
       <Header />
@@ -21,7 +25,7 @@ function Main(): JSX.Element {
           <div className="catalog">
             <Filter />
             <Sort />
-            <CardsCatalog />
+            <CardsCatalog guitars={guitars} />
             <Pagination />
           </div>
         </div>
