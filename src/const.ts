@@ -12,7 +12,6 @@ enum ApiRoute {
 
 enum ActionType {
   SetGuitars = 'app/set-guitars',
-  SetComments = 'app/set-comments',
 }
 
 enum SortType {
