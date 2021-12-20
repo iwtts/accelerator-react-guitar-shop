@@ -13,4 +13,4 @@ const dataReducer = createReducer(initialState, (builder) => {
     });
 });
 
-export { dataReducer };
+export { initialState, dataReducer };
