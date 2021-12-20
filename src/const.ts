@@ -2,6 +2,7 @@ const ERROR_MESSAGE = 'Произошла ошибка';
 
 enum AppRoute {
   Main = '/',
+  Guitar = '/guitar'
 }
 
 enum ApiRoute {
