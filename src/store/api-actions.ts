@@ -1,15 +1,11 @@
 import { toast } from 'react-toastify';
-import {
-  ERROR_MESSAGE,
-  ApiRoute,
-  SortOrder,
-  SortType } from '../const';
+import { ERROR_MESSAGE, ApiRoute } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { getGuitars } from './actions';
 
-const getDataGuitars = (sortType = SortType.Default, sortOrder = SortOrder.Default): ThunkActionResult =>
+const getDataGuitars = (...params: string[]): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    await api.get(`${ApiRoute.GuitarsWithComments}${sortType}${sortOrder}`)
+    await api.get(`${ApiRoute.GuitarsWithComments}${params.join('')}`)
       .then(({data}) => {
         dispatch(getGuitars(data));
       })
