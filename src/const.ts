@@ -26,6 +26,25 @@ enum SortOrder {
   Descending = '&_order=desc',
 }
 
+enum Price {
+  From = '&price_gte=',
+  To = '&price_lte=',
+}
+
+enum GuitarType {
+  Default = '',
+  Electric = '&type=electric',
+  Acoustic = '&type=acoustic',
+  Ukulele = '&type=ukulele',
+}
+
+enum StringCount {
+  Four = '&stringCount=4',
+  Six = '&stringCount=6',
+  Seven = '&stringCount=7',
+  Twelve = '&stringCount=12',
+}
+
 enum NameSpace {
   Data = 'DATA',
 }
@@ -35,7 +54,10 @@ export {
   AppRoute,
   ApiRoute,
   ActionType,
+  Price,
   SortType,
   SortOrder,
+  GuitarType,
+  StringCount,
   NameSpace
 };
