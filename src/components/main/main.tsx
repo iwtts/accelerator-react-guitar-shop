@@ -6,9 +6,14 @@ import Sort from '../sort/sort';
 import CardsCatalog from '../cards-catalog/cards-catalog';
 import Pagination from '../pagination/pagination';
 import Footer from '../footer/footer';
+import NotFound from '../not-found/not-found';
 
 function Main(): JSX.Element {
-  const guitars = useSelector(selectGuitars);
+  const guitars = useSelector(selectGuitars).slice(0, 9);
+
+  if (guitars.length === 0) {
+    return <NotFound />;
+  }
 
   return (
     <>
@@ -23,7 +28,7 @@ function Main(): JSX.Element {
             </li>
           </ul>
           <div className="catalog">
-            <Filter />
+            <Filter guitars={guitars} />
             <Sort />
             <CardsCatalog guitars={guitars} />
             <Pagination />
