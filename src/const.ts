@@ -12,6 +12,11 @@ enum ApiRoute {
 
 enum ActionType {
   SetGuitars = 'app/set-guitars',
+  SetSortType = 'user/set-sort-type',
+  SetSortOrder = 'user/set-sort-order',
+  SetMinPrice = 'user/set-min-price',
+  SetMaxPrice = 'user/set-max-price',
+  SetFilter = 'user/set-filter',
 }
 
 enum SortType {
@@ -47,6 +52,7 @@ enum StringCount {
 
 enum NameSpace {
   Data = 'DATA',
+  User = 'USER',
 }
 
 export {

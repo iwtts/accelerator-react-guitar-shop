@@ -1,12 +1,10 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   GuitarType,
   Price,
-  SortOrder,
-  SortType,
   StringCount } from '../../const';
-import { getDataGuitars } from '../../store/api-actions';
+import { setFilter, setMaxPrice, setMinPrice } from '../../store/actions';
 import { Guitar } from '../../types/guitar';
 
 type FilterProps = {
@@ -20,40 +18,28 @@ function Filter(props: FilterProps): JSX.Element {
   const cheapestGuitarPrice = guitarsByPrice[0].price.toString();
   const mostExpensiveGuitarPrice = guitarsByPrice[guitarsByPrice.length -1].price.toString();
 
-  const [minPrice, setMinPrice] = useState<string>('');
-  const [maxPrice, setMaxPrice] = useState<string>('');
-  const [guitarType, setGuitarType] = useState<string>('');
-  const [stringCount, setStringCount] = useState<string>('');
+  const [filters] = useState<string[]>([]);
 
   const handleMinPriceChange = (evt: ChangeEvent<HTMLInputElement> ) => {
     const modifiedValue = (+evt.target.value < +cheapestGuitarPrice) ? cheapestGuitarPrice : evt.target.value;
     evt.target.value = modifiedValue;
-    setMinPrice(`${Price.From}${modifiedValue}`);
+    dispatch(setMinPrice(`${Price.From}${modifiedValue}`));
   };
 
   const handleMaxPriceChange = (evt: ChangeEvent<HTMLInputElement> ) => {
     const modifiedValue = (+evt.target.value > +mostExpensiveGuitarPrice) ? mostExpensiveGuitarPrice : evt.target.value;
     evt.target.value = modifiedValue;
-    setMaxPrice(`${Price.To}${evt.target.value}`);
+    dispatch(setMaxPrice((`${Price.To}${modifiedValue}`)));
   };
 
-  const handleGuitarTypeChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setGuitarType(evt.target.value);
+  const handleFilterChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    if(filters.includes(evt.target.value)) {
+      filters.splice(filters.indexOf(evt.target.value), 1);
+    } else {
+      filters.push(evt.target.value);
+    }
+    dispatch(setFilter(filters.join('')));
   };
-
-  const handleStringCountChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setStringCount(evt.target.value);
-  };
-
-  useEffect(() => {
-    dispatch(getDataGuitars(SortType.Default, SortOrder.Default, minPrice, maxPrice, guitarType, stringCount));
-  }, [
-    minPrice,
-    maxPrice,
-    guitarType,
-    stringCount,
-    dispatch,
-  ]);
 
   return (
     <form className="catalog-filter">
@@ -95,8 +81,8 @@ function Filter(props: FilterProps): JSX.Element {
             type="checkbox" id="acoustic"
             name="acoustic"
             value={GuitarType.Acoustic}
-            onChange={handleGuitarTypeChange}
-            checked={guitarType === GuitarType.Acoustic}
+            onChange={handleFilterChange}
+            checked={filters.includes(GuitarType.Acoustic)}
           >
           </input>
           <label htmlFor="acoustic">Акустические гитары</label>
@@ -108,8 +94,8 @@ function Filter(props: FilterProps): JSX.Element {
             id="electric"
             name="electric"
             value={GuitarType.Electric}
-            onChange={handleGuitarTypeChange}
-            checked={guitarType === GuitarType.Electric}
+            onChange={handleFilterChange}
+            checked={filters.includes(GuitarType.Electric)}
           >
           </input>
           <label htmlFor="electric">Электрогитары</label>
@@ -121,8 +107,8 @@ function Filter(props: FilterProps): JSX.Element {
             id="ukulele"
             name="ukulele"
             value={GuitarType.Ukulele}
-            onChange={handleGuitarTypeChange}
-            checked={guitarType === GuitarType.Ukulele}
+            onChange={handleFilterChange}
+            checked={filters.includes(GuitarType.Ukulele)}
           >
           </input>
           <label htmlFor="ukulele">Укулеле</label>
@@ -137,9 +123,9 @@ function Filter(props: FilterProps): JSX.Element {
             id="4-strings"
             name="4-strings"
             value={StringCount.Four}
-            onChange={handleStringCountChange}
-            checked={stringCount === StringCount.Four}
-            disabled={guitarType === GuitarType.Acoustic}
+            onChange={handleFilterChange}
+            checked={filters.includes(StringCount.Four)}
+            disabled={!filters.includes(GuitarType.Ukulele)}
           >
           </input>
           <label htmlFor="4-strings">4</label>
@@ -151,9 +137,9 @@ function Filter(props: FilterProps): JSX.Element {
             id="6-strings"
             name="6-strings"
             value={StringCount.Six}
-            onChange={handleStringCountChange}
-            checked={stringCount === StringCount.Six}
-            disabled={guitarType === GuitarType.Ukulele}
+            onChange={handleFilterChange}
+            checked={filters.includes(StringCount.Six)}
+            disabled={!filters.includes(GuitarType.Acoustic) && !filters.includes(GuitarType.Electric)}
           >
           </input>
           <label htmlFor="6-strings">6</label>
@@ -165,9 +151,9 @@ function Filter(props: FilterProps): JSX.Element {
             id="7-strings"
             name="7-strings"
             value={StringCount.Seven}
-            onChange={handleStringCountChange}
-            checked={stringCount === StringCount.Seven}
-            disabled={guitarType === GuitarType.Ukulele}
+            onChange={handleFilterChange}
+            checked={filters.includes(StringCount.Seven)}
+            disabled={!filters.includes(GuitarType.Acoustic) && !filters.includes(GuitarType.Electric)}
           >
           </input>
           <label htmlFor="7-strings">7</label>
@@ -179,9 +165,9 @@ function Filter(props: FilterProps): JSX.Element {
             id="12-strings"
             name="12-strings"
             value={StringCount.Twelve}
-            onChange={handleStringCountChange}
-            checked={stringCount === StringCount.Twelve}
-            disabled={guitarType !== GuitarType.Acoustic}
+            onChange={handleFilterChange}
+            checked={filters.includes(StringCount.Twelve)}
+            disabled={!filters.includes(GuitarType.Acoustic)}
           >
           </input>
           <label htmlFor="12-strings">12</label>

@@ -1,37 +1,35 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { SortOrder, SortType } from '../../const';
-import { getDataGuitars } from '../../store/api-actions';
+import { setSortOrder, setSortType } from '../../store/actions';
 
-function Sort(): JSX.Element {
+type SortProps = {
+  sortType: SortType,
+};
+
+function Sort(props: SortProps): JSX.Element {
   const dispatch = useDispatch();
-
-  const [currentSortType, setCurrentSortType] = useState<SortType | undefined>(undefined);
+  const currentSortType = props.sortType;
 
   const handleSortByPriceBtnClick = () => {
-    dispatch(getDataGuitars(SortType.Price));
-    setCurrentSortType(SortType.Price);
+    dispatch(setSortType(SortType.Price));
   };
 
   const handleSortByRatingBtnClick = () => {
-    dispatch(getDataGuitars(SortType.Rating));
-    setCurrentSortType(SortType.Rating);
+    dispatch(setSortType(SortType.Rating));
   };
 
   const handleSortOrderUpClick = () => {
-    if (currentSortType === SortType.Rating) {
-      dispatch(getDataGuitars(SortType.Rating, SortOrder.Ascending));
-      return;
+    if (currentSortType === SortType.Default) {
+      dispatch(setSortType(SortType.Price));
     }
-    dispatch(getDataGuitars(SortType.Price, SortOrder.Ascending));
+    dispatch(setSortOrder(SortOrder.Ascending));
   };
 
   const handleSortOrderDownClick = () => {
-    if (currentSortType === SortType.Rating) {
-      dispatch(getDataGuitars(SortType.Rating, SortOrder.Descending));
-      return;
+    if (currentSortType === SortType.Default) {
+      dispatch(setSortType(SortType.Price));
     }
-    dispatch(getDataGuitars(SortType.Rating, SortOrder.Descending));
+    dispatch(setSortOrder(SortOrder.Descending));
   };
 
   return (
@@ -41,7 +39,6 @@ function Sort(): JSX.Element {
         <button
           className="catalog-sort__type-button"
           aria-label="по цене"
-          // tabIndex={-1}
           onClick={handleSortByPriceBtnClick}
         >
           по цене
@@ -58,7 +55,6 @@ function Sort(): JSX.Element {
         <button
           className="catalog-sort__order-button catalog-sort__order-button--up"
           aria-label="По возрастанию"
-          // tabIndex={-1}
           onClick={handleSortOrderUpClick}
         >
         </button>
