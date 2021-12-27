@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import { ERROR_MESSAGE, ApiRoute } from '../const';
 import { ThunkActionResult } from '../types/action';
-import { getGuitars } from './actions';
+import { getGuitars, setHeaderGuitars } from './actions';
 
 const getDataGuitars = (...params: string[]): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -14,4 +14,15 @@ const getDataGuitars = (...params: string[]): ThunkActionResult =>
       });
   };
 
-export { getDataGuitars };
+const getDataForSearch = (nameRef: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    await api.get(`${ApiRoute.Guitars}${`?name_like=${nameRef}`}`)
+      .then(({data}) => {
+        dispatch(setHeaderGuitars(data));
+      })
+      .catch(() => {
+        toast.error(ERROR_MESSAGE);
+      });
+  };
+
+export { getDataGuitars, getDataForSearch };

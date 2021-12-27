@@ -44,7 +44,7 @@ function Main(): JSX.Element {
 
   return (
     <>
-      <Header guitars={guitars} />
+      <Header />
       <main className="page-content">
         <div className="container">
           <h1 className="page-content__title title title--bigger">Каталог гитар</h1>

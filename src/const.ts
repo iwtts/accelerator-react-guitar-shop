@@ -12,6 +12,7 @@ enum ApiRoute {
 
 enum ActionType {
   SetGuitars = 'app/set-guitars',
+  SetHeaderGuitars ='user/set-header-guitars',
   SetSortType = 'user/set-sort-type',
   SetSortOrder = 'user/set-sort-order',
   SetMinPrice = 'user/set-min-price',

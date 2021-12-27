@@ -11,6 +11,15 @@ const getGuitars = createAction(
   }),
 );
 
+const setHeaderGuitars = createAction(
+  ActionType.SetHeaderGuitars,
+  (headerGuitars: Guitar[]) => ({
+    payload: {
+      headerGuitars: headerGuitars,
+    },
+  }),
+);
+
 const setSortType = createAction(
   ActionType.SetSortType,
   (sortType: SortType) => ({
@@ -58,6 +67,7 @@ const setFilter = createAction(
 
 export {
   getGuitars,
+  setHeaderGuitars,
   setSortType,
   setSortOrder,
   setMinPrice,

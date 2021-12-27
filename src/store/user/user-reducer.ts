@@ -2,14 +2,16 @@ import { createReducer } from '@reduxjs/toolkit';
 import { SortOrder, SortType } from '../../const';
 import { UserState } from '../../types/state';
 import {
-  setFilter,
+  setHeaderGuitars,
   setMaxPrice,
   setMinPrice,
   setSortOrder,
-  setSortType
+  setSortType,
+  setFilter
 } from '../actions';
 
 const initialState: UserState = {
+  headerGuitars: [],
   sortType: SortType.Default,
   sortOrder: SortOrder.Default,
   minPrice: '',
@@ -19,6 +21,9 @@ const initialState: UserState = {
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(setHeaderGuitars, (state, action) => {
+      state.headerGuitars = action.payload.headerGuitars;
+    })
     .addCase(setSortType, (state, action) => {
       state.sortType = action.payload.sortType;
     })

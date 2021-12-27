@@ -1,42 +1,15 @@
-import Fuse from 'fuse.js';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { Guitar } from '../../types/guitar';
+import { getDataForSearch } from '../../store/api-actions';
+import { selectHeaderGuitars } from '../../store/user/user-selectors';
 
-type HeaderProps = {
-  guitars: Guitar[],
-}
-
-function Header(props: HeaderProps): JSX.Element {
-  const [data, setData] = useState<Guitar[] | null>(null);
-
-  const searchData = (pattern: string) => {
-    if (!pattern) {
-      setData(null);
-      return;
-    }
-
-    const fuse = new Fuse(props.guitars, {
-      keys: ['name'],
-    });
-
-    const result = fuse.search(pattern);
-
-    const matches: Guitar[] = [];
-
-    if (!result.length) {
-      setData(null);
-    } else {
-      result.forEach(({item}) => {
-        matches.push(item);
-      });
-      setData(matches);
-    }
-  };
+function Header(): JSX.Element {
+  const dispatch = useDispatch();
+  const data = useSelector(selectHeaderGuitars);
 
   const handleSearchInputChange = (evt: { target: { value: string; }; }) => {
-    searchData(evt.target.value);
+    dispatch(getDataForSearch(evt.target.value));
   };
 
   return(
@@ -77,7 +50,7 @@ function Header(props: HeaderProps): JSX.Element {
             <label className="visually-hidden" htmlFor="search">Поиск</label>
           </form>
           {
-            data &&
+            data.length > 0 &&
             <ul
               className="form-search__select-list"
               style={{zIndex:10}}

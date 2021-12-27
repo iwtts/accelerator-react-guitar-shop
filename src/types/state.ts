@@ -7,6 +7,7 @@ type DataState = {
 }
 
 type UserState = {
+  headerGuitars: Guitar[],
   sortType: SortType,
   sortOrder: SortOrder,
   minPrice: string,
