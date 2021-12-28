@@ -9,7 +9,7 @@ function App(): JSX.Element {
       <Route exact path={AppRoute.Main}>
         <Main />
       </Route>
-      <Route exact path={`${AppRoute.Main}:page`}>
+      <Route exact path={`${AppRoute.Main}:id`}>
         <Main />
       </Route>
       <Route>

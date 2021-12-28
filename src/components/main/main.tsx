@@ -6,7 +6,6 @@ import Sort from '../sort/sort';
 import CardsCatalog from '../cards-catalog/cards-catalog';
 import Pagination from '../pagination/pagination';
 import Footer from '../footer/footer';
-import NotFound from '../not-found/not-found';
 import { getDataGuitars } from '../../store/api-actions';
 import { useEffect } from 'react';
 import {
@@ -17,6 +16,7 @@ import {
   selectSortOrder,
   selectSortType
 } from '../../store/user/user-selectors';
+import Loading from '../loading/loading';
 
 function Main(): JSX.Element {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ function Main(): JSX.Element {
   const guitars = useSelector(selectGuitars);
 
   if (guitars.length === 0) {
-    return <NotFound />;
+    return <Loading />;
   }
 
   return (
