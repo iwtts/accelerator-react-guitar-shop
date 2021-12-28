@@ -9,6 +9,9 @@ function App(): JSX.Element {
       <Route exact path={AppRoute.Main}>
         <Main />
       </Route>
+      <Route exact path={`${AppRoute.Main}:page`}>
+        <Main />
+      </Route>
       <Route>
         <NotFound />
       </Route>

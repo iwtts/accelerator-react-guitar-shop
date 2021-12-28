@@ -1,5 +1,9 @@
 const ERROR_MESSAGE = 'Произошла ошибка';
 
+const GUITARS_PER_PAGE_AMOUNT = 6;
+const PAGINATION_CORRECTION_VALUE = 1;
+const PAGINATION_PAGES_PER_PAGE_AMOUNT = 3;
+
 enum AppRoute {
   Main = '/',
   Guitar = '/guitar',
@@ -13,11 +17,13 @@ enum ApiRoute {
 enum ActionType {
   SetGuitars = 'app/set-guitars',
   SetHeaderGuitars ='user/set-header-guitars',
+  SetPaginationGuitars = 'app/set-pagination-guitars',
   SetSortType = 'user/set-sort-type',
   SetSortOrder = 'user/set-sort-order',
   SetMinPrice = 'user/set-min-price',
   SetMaxPrice = 'user/set-max-price',
   SetFilter = 'user/set-filter',
+  SetPaginationFilter = 'user/set-pagination-filter',
 }
 
 enum SortType {
@@ -58,6 +64,9 @@ enum NameSpace {
 
 export {
   ERROR_MESSAGE,
+  GUITARS_PER_PAGE_AMOUNT,
+  PAGINATION_CORRECTION_VALUE,
+  PAGINATION_PAGES_PER_PAGE_AMOUNT,
   AppRoute,
   ApiRoute,
   ActionType,

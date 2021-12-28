@@ -7,7 +7,8 @@ import {
   setMinPrice,
   setSortOrder,
   setSortType,
-  setFilter
+  setFilter,
+  setPaginationFilter
 } from '../actions';
 
 const initialState: UserState = {
@@ -17,6 +18,7 @@ const initialState: UserState = {
   minPrice: '',
   maxPrice: '',
   filter: '',
+  paginationFilter: '',
 };
 
 const userReducer = createReducer(initialState, (builder) => {
@@ -38,6 +40,9 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setFilter, (state, action) => {
       state.filter = action.payload.filter;
+    })
+    .addCase(setPaginationFilter, (state, action) => {
+      state.paginationFilter = action.payload.paginationFilter;
     });
 });
 

@@ -13,6 +13,7 @@ import {
   selectFilter,
   selectMaxPrice,
   selectMinPrice,
+  selectPaginationFilter,
   selectSortOrder,
   selectSortType
 } from '../../store/user/user-selectors';
@@ -25,18 +26,20 @@ function Main(): JSX.Element {
   const currentMinPrice = useSelector(selectMinPrice);
   const currentMaxPrice = useSelector(selectMaxPrice);
   const currentFilter = useSelector(selectFilter);
+  const currentPagintaionFilter = useSelector(selectPaginationFilter);
 
   useEffect(() => {
-    dispatch(getDataGuitars(currentSortType, currentSortOder, currentMinPrice, currentMaxPrice, currentFilter));
+    dispatch(getDataGuitars(currentPagintaionFilter, currentSortType, currentSortOder, currentMinPrice, currentMaxPrice, currentFilter));
   }, [
     currentMinPrice,
     currentMaxPrice,
     currentSortOder,
     currentSortType,
     currentFilter,
+    currentPagintaionFilter,
     dispatch]);
 
-  const guitars = useSelector(selectGuitars).slice(0, 9);
+  const guitars = useSelector(selectGuitars);
 
   if (guitars.length === 0) {
     return <NotFound />;

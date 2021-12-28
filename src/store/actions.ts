@@ -20,6 +20,15 @@ const setHeaderGuitars = createAction(
   }),
 );
 
+const setPaginationGuitars = createAction(
+  ActionType.SetPaginationGuitars,
+  (paginationGuitars: Guitar[]) => ({
+    payload: {
+      paginationGuitars: paginationGuitars,
+    },
+  }),
+);
+
 const setSortType = createAction(
   ActionType.SetSortType,
   (sortType: SortType) => ({
@@ -65,12 +74,23 @@ const setFilter = createAction(
   }),
 );
 
+const setPaginationFilter = createAction(
+  ActionType.SetPaginationFilter,
+  (paginationFilter: string) => ({
+    payload: {
+      paginationFilter: paginationFilter,
+    },
+  }),
+);
+
 export {
   getGuitars,
   setHeaderGuitars,
+  setPaginationGuitars,
   setSortType,
   setSortOrder,
   setMinPrice,
   setMaxPrice,
-  setFilter
+  setFilter,
+  setPaginationFilter
 };

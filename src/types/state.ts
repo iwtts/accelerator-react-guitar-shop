@@ -4,6 +4,7 @@ import { Guitar } from './guitar';
 
 type DataState = {
   guitars: Guitar[],
+  paginationGuitars: Guitar[],
 }
 
 type UserState = {
@@ -13,6 +14,7 @@ type UserState = {
   minPrice: string,
   maxPrice: string,
   filter: string,
+  paginationFilter: string,
 }
 
 type State = RootState;

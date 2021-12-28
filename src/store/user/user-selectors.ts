@@ -1,4 +1,7 @@
-import { NameSpace, SortOrder, SortType } from '../../const';
+import {
+  NameSpace,
+  SortOrder,
+  SortType } from '../../const';
 import { Guitar } from '../../types/guitar';
 import { State } from '../../types/state';
 
@@ -8,6 +11,7 @@ const selectSortOrder = (state: State): SortOrder => state[NameSpace.User].sortO
 const selectMinPrice = (state: State): string => state[NameSpace.User].minPrice;
 const selectMaxPrice = (state: State): string => state[NameSpace.User].maxPrice;
 const selectFilter = (state: State): string => state[NameSpace.User].filter;
+const selectPaginationFilter = (state: State): string => state[NameSpace.User].paginationFilter;
 
 export {
   selectHeaderGuitars,
@@ -15,5 +19,6 @@ export {
   selectSortOrder,
   selectMinPrice,
   selectMaxPrice,
-  selectFilter
+  selectFilter,
+  selectPaginationFilter
 };
