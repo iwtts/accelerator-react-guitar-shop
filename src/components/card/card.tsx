@@ -37,7 +37,12 @@ function Card(props : CardProps): JSX.Element {
             <use xlinkHref={rating >= 5 ? '#icon-full-star' : '#icon-star'}></use>
           </svg><span className="rate__count">{rateCount}</span><span className="rate__message"></span>
         </div>
-        <p className="product-card__title">{name}</p>
+        <p
+          className="product-card__title"
+          data-testid="card-title"
+        >
+          {name}
+        </p>
         <p className="product-card__price">
           <span className="visually-hidden">Цена:</span>{price} ₽
         </p>

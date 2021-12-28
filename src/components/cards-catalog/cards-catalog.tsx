@@ -7,7 +7,10 @@ type CardsCatalogProps = {
 
 function CardsCatalog(props: CardsCatalogProps): JSX.Element {
   return(
-    <div className="cards catalog__cards">
+    <div
+      className="cards catalog__cards"
+      data-testid="cards-catalog"
+    >
       {props.guitars
         .map((guitar) => (
           <Card

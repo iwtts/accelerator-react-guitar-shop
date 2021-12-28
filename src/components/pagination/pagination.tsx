@@ -32,7 +32,10 @@ function Pagination(): JSX.Element {
   }, [currentPageNumber, dispatch]);
 
   return (
-    <div className="pagination page-content__pagination">
+    <div
+      className="pagination page-content__pagination"
+      data-testid="pagination"
+    >
       <ul className="pagination__list">
         {sliceStart !== 0 && (
           <li className="pagination__page pagination__page--next" id="next">
