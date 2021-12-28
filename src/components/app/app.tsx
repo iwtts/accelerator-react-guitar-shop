@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import Main from '../main/main';
 import NotFound from '../not-found/not-found';
@@ -7,7 +7,7 @@ function App(): JSX.Element {
   return (
     <Switch>
       <Route exact path={AppRoute.Main}>
-        <Main />
+        <Redirect to={`${AppRoute.Main}1`} />
       </Route>
       <Route exact path={`${AppRoute.Main}:id`}>
         <Main />
