@@ -1,3 +1,4 @@
+import { RatingValue } from '../../const';
 import { Guitar } from '../../types/guitar';
 
 type CardProps = {
@@ -22,19 +23,19 @@ function Card(props : CardProps): JSX.Element {
       <div className="product-card__info">
         <div className="rate product-card__rate" aria-hidden="true"><span className="visually-hidden">Рейтинг:</span>
           <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref={rating >= 1 ? '#icon-full-star' : '#icon-star'}></use>
+            <use xlinkHref={rating >= RatingValue.One ? '#icon-full-star' : '#icon-star'}></use>
           </svg>
           <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref={rating >= 2 ? '#icon-full-star' : '#icon-star'}></use>
+            <use xlinkHref={rating >= RatingValue.Two ? '#icon-full-star' : '#icon-star'}></use>
           </svg>
           <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref={rating >= 3 ? '#icon-full-star' : '#icon-star'}></use>
+            <use xlinkHref={rating >= RatingValue.Three ? '#icon-full-star' : '#icon-star'}></use>
           </svg>
           <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref={rating >= 4 ? '#icon-full-star' : '#icon-star'}></use>
+            <use xlinkHref={rating >= RatingValue.Four ? '#icon-full-star' : '#icon-star'}></use>
           </svg>
           <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref={rating >= 5 ? '#icon-full-star' : '#icon-star'}></use>
+            <use xlinkHref={rating >= RatingValue.Five ? '#icon-full-star' : '#icon-star'}></use>
           </svg><span className="rate__count">{rateCount}</span><span className="rate__message"></span>
         </div>
         <p

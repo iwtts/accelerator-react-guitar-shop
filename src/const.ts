@@ -62,6 +62,14 @@ enum NameSpace {
   User = 'USER',
 }
 
+enum RatingValue {
+  One = 1,
+  Two = 2,
+  Three = 3,
+  Four = 4,
+  Five = 5,
+}
+
 export {
   ERROR_MESSAGE,
   GUITARS_PER_PAGE_AMOUNT,
@@ -75,5 +83,6 @@ export {
   SortOrder,
   GuitarType,
   StringCount,
-  NameSpace
+  NameSpace,
+  RatingValue
 };
