@@ -125,7 +125,7 @@ function Filter(props: FilterProps): JSX.Element {
             value={StringCount.Four}
             onChange={handleFilterChange}
             checked={filters.includes(StringCount.Four)}
-            disabled={!filters.includes(GuitarType.Ukulele)}
+            disabled={filters.includes(GuitarType.Acoustic) && !filters.includes(GuitarType.Ukulele) && !filters.includes(GuitarType.Electric)}
           >
           </input>
           <label htmlFor="4-strings">4</label>
@@ -139,7 +139,7 @@ function Filter(props: FilterProps): JSX.Element {
             value={StringCount.Six}
             onChange={handleFilterChange}
             checked={filters.includes(StringCount.Six)}
-            disabled={!filters.includes(GuitarType.Acoustic) && !filters.includes(GuitarType.Electric)}
+            disabled={filters.includes(GuitarType.Ukulele) && !filters.includes(GuitarType.Acoustic)&& !filters.includes(GuitarType.Electric)}
           >
           </input>
           <label htmlFor="6-strings">6</label>
@@ -153,7 +153,7 @@ function Filter(props: FilterProps): JSX.Element {
             value={StringCount.Seven}
             onChange={handleFilterChange}
             checked={filters.includes(StringCount.Seven)}
-            disabled={!filters.includes(GuitarType.Acoustic) && !filters.includes(GuitarType.Electric)}
+            disabled={filters.includes(GuitarType.Ukulele) && !filters.includes(GuitarType.Electric) && !filters.includes(GuitarType.Acoustic)}
           >
           </input>
           <label htmlFor="7-strings">7</label>
@@ -167,7 +167,7 @@ function Filter(props: FilterProps): JSX.Element {
             value={StringCount.Twelve}
             onChange={handleFilterChange}
             checked={filters.includes(StringCount.Twelve)}
-            disabled={!filters.includes(GuitarType.Acoustic)}
+            disabled={(filters.includes(GuitarType.Ukulele) || filters.includes(GuitarType.Electric)) && !filters.includes(GuitarType.Acoustic)}
           >
           </input>
           <label htmlFor="12-strings">12</label>
