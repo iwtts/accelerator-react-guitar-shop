@@ -1,5 +1,5 @@
 import { getMockGuitars } from '../../mocks/guitars';
-import { getGuitars } from '../actions';
+import { getGuitars, setPaginationGuitars } from '../actions';
 import { initialState, dataReducer } from './data-reducer';
 
 describe('Reducer: dataReducer', () => {
@@ -15,6 +15,16 @@ describe('Reducer: dataReducer', () => {
       .toEqual({
         ...initialState,
         guitars: mockGuitars,
+      });
+  });
+
+  it('should update paginationGuitars', () => {
+    const mockGuitars = getMockGuitars();
+
+    expect(dataReducer(initialState, setPaginationGuitars(mockGuitars)))
+      .toEqual({
+        ...initialState,
+        paginationGuitars: mockGuitars,
       });
   });
 });
