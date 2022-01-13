@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from '@reduxjs/toolkit';
+import { applyMiddleware, createStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createApi } from './services/api';
-import { getDataGuitars } from './store/api-actions';
+import {  getDataGuitars } from './store/api-actions';
 import { rootReducer } from './store/root-reducer';
 import App from './components/app/app';
 

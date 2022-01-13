@@ -3,6 +3,7 @@ import { RootState } from '../store/root-reducer';
 import { Guitar } from './guitar';
 
 type DataState = {
+  isDataLoaded: boolean,
   guitars: Guitar[],
   paginationGuitars: Guitar[],
 }
@@ -15,6 +16,7 @@ type UserState = {
   maxPrice: string,
   filter: string,
   paginationFilter: string,
+  currentPageNumber: number,
 }
 
 type State = RootState;

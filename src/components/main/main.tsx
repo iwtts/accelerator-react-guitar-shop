@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { selectGuitars } from '../../store/data/data-selectors';
+import { selectDataLoadingStatus, selectGuitars } from '../../store/data/data-selectors';
 import Header from '../header/header';
 import Filter from '../filter/filter';
 import Sort from '../sort/sort';
@@ -9,41 +9,38 @@ import Footer from '../footer/footer';
 import { getDataGuitars } from '../../store/api-actions';
 import { useEffect } from 'react';
 import {
+  selectCurrentPageNumber,
   selectFilter,
   selectMaxPrice,
   selectMinPrice,
-  selectPaginationFilter,
   selectSortOrder,
   selectSortType
 } from '../../store/user/user-selectors';
-import Loading from '../loading/loading';
+import { useHistory } from 'react-router-dom';
 
 function Main(): JSX.Element {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const currentSortType = useSelector(selectSortType);
   const currentSortOder = useSelector(selectSortOrder);
   const currentMinPrice = useSelector(selectMinPrice);
   const currentMaxPrice = useSelector(selectMaxPrice);
   const currentFilter = useSelector(selectFilter);
-  const currentPagintaionFilter = useSelector(selectPaginationFilter);
+  const currentPageNumber = useSelector(selectCurrentPageNumber);
+
+  const urlPageNumber = `page_${currentPageNumber}`;
+  const guitarsPaginationFilter = `&_start=${(+currentPageNumber - 1) * 6}&_limit=6`;
+  const urlString = urlPageNumber + currentSortType + currentSortOder + currentMinPrice + currentMaxPrice + currentFilter;
+  const guitarsRequestString = guitarsPaginationFilter + currentSortType + currentSortOder + currentMinPrice + currentMaxPrice + currentFilter;
 
   useEffect(() => {
-    dispatch(getDataGuitars(currentPagintaionFilter, currentSortType, currentSortOder, currentMinPrice, currentMaxPrice, currentFilter));
-  }, [
-    currentMinPrice,
-    currentMaxPrice,
-    currentSortOder,
-    currentSortType,
-    currentFilter,
-    currentPagintaionFilter,
-    dispatch]);
+    history.push(urlString);
+    dispatch(getDataGuitars(guitarsRequestString));
+  }, [dispatch, guitarsRequestString, history, urlString]);
 
   const guitars = useSelector(selectGuitars);
-
-  if (guitars.length === 0) {
-    return <Loading />;
-  }
+  const isDataLoaded = useSelector(selectDataLoadingStatus);
 
   return (
     <>
@@ -57,12 +54,13 @@ function Main(): JSX.Element {
             <li className="breadcrumbs__item"><a className="link">Каталог</a>
             </li>
           </ul>
+          {isDataLoaded &&
           <div className="catalog">
             <Filter guitars={guitars} />
             <Sort sortType={currentSortType} />
             <CardsCatalog guitars={guitars} />
             <Pagination />
-          </div>
+          </div>}
         </div>
       </main>
       <Footer />

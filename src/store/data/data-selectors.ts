@@ -4,5 +4,6 @@ import { State } from '../../types/state';
 
 const selectGuitars = (state: State): Guitar[] => state[NameSpace.Data].guitars;
 const selectPaginationGuitars = (state: State): Guitar[] => state[NameSpace.Data].paginationGuitars;
+const selectDataLoadingStatus = (state: State): boolean => state[NameSpace.Data].isDataLoaded;
 
-export { selectGuitars, selectPaginationGuitars };
+export { selectGuitars, selectPaginationGuitars, selectDataLoadingStatus };

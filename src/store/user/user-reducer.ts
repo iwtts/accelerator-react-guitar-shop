@@ -1,5 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { SortOrder, SortType } from '../../const';
+import {
+  INITIAL_PAGE_NUMBER,
+  SortOrder,
+  SortType } from '../../const';
 import { UserState } from '../../types/state';
 import {
   setHeaderGuitars,
@@ -8,7 +11,8 @@ import {
   setSortOrder,
   setSortType,
   setFilter,
-  setPaginationFilter
+  setPaginationFilter,
+  setCurrentPageNumber
 } from '../actions';
 
 const initialState: UserState = {
@@ -19,6 +23,7 @@ const initialState: UserState = {
   maxPrice: '',
   filter: '',
   paginationFilter: '',
+  currentPageNumber: INITIAL_PAGE_NUMBER,
 };
 
 const userReducer = createReducer(initialState, (builder) => {
@@ -43,6 +48,9 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setPaginationFilter, (state, action) => {
       state.paginationFilter = action.payload.paginationFilter;
+    })
+    .addCase(setCurrentPageNumber, (state, action) => {
+      state.currentPageNumber = action.payload.currentPageNumber;
     });
 });
 

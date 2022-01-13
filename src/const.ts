@@ -3,6 +3,7 @@ const ERROR_MESSAGE = 'Произошла ошибка';
 const GUITARS_PER_PAGE_AMOUNT = 6;
 const PAGINATION_CORRECTION_VALUE = 1;
 const PAGINATION_PAGES_PER_PAGE_AMOUNT = 3;
+const INITIAL_PAGE_NUMBER = 1;
 
 enum AppRoute {
   Main = '/',
@@ -24,6 +25,8 @@ enum ActionType {
   SetMaxPrice = 'user/set-max-price',
   SetFilter = 'user/set-filter',
   SetPaginationFilter = 'user/set-pagination-filter',
+  SetCurrentPageNumber = 'user/set-current-page-number',
+  RedirectToRoute = 'user/redirect-to-route',
 }
 
 enum SortType {
@@ -75,6 +78,7 @@ export {
   GUITARS_PER_PAGE_AMOUNT,
   PAGINATION_CORRECTION_VALUE,
   PAGINATION_PAGES_PER_PAGE_AMOUNT,
+  INITIAL_PAGE_NUMBER,
   AppRoute,
   ApiRoute,
   ActionType,

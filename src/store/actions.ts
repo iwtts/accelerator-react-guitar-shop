@@ -83,6 +83,24 @@ const setPaginationFilter = createAction(
   }),
 );
 
+const setCurrentPageNumber = createAction(
+  ActionType.SetCurrentPageNumber,
+  (currentPageNumber: number) => ({
+    payload:{
+      currentPageNumber: currentPageNumber,
+    },
+  }),
+);
+
+const redirectToRouter = createAction(
+  ActionType.RedirectToRoute,
+  (url: string) => ({
+    payload: {
+      url,
+    },
+  }),
+);
+
 export {
   getGuitars,
   setHeaderGuitars,
@@ -92,5 +110,7 @@ export {
   setMinPrice,
   setMaxPrice,
   setFilter,
-  setPaginationFilter
+  setPaginationFilter,
+  setCurrentPageNumber,
+  redirectToRouter
 };
