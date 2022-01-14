@@ -6,7 +6,7 @@ import {
   PAGINATION_CORRECTION_VALUE,
   PAGINATION_PAGES_PER_PAGE_AMOUNT
 } from '../../const';
-import { setCurrentPageNumber } from '../../store/actions';
+import { setCurrentPageNumber, setPaginationFilter } from '../../store/actions';
 import { getDataForPagination } from '../../store/api-actions';
 import { selectPaginationGuitars } from '../../store/data/data-selectors';
 import { selectCurrentPageNumber } from '../../store/user/user-selectors';
@@ -29,16 +29,19 @@ function Pagination(): JSX.Element {
 
   const handlePageNumberChange = ( pageNumber: number) => {
     dispatch(setCurrentPageNumber(pageNumber));
+    dispatch(setPaginationFilter(`&_start=${(pageNumber - 1) * 6}&_limit=6`));
   };
 
   const handlePaginationBackClick = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
     dispatch(setCurrentPageNumber(sliceEnd - PAGINATION_PAGES_PER_PAGE_AMOUNT));
+    dispatch(setPaginationFilter(`&_start=${(sliceEnd - PAGINATION_PAGES_PER_PAGE_AMOUNT - 1) * 6}&_limit=6`));
   };
 
   const handlePaginationNextClick = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
     dispatch(setCurrentPageNumber(sliceStart + PAGINATION_PAGES_PER_PAGE_AMOUNT + PAGINATION_CORRECTION_VALUE));
+    dispatch(setPaginationFilter(`&_start=${(sliceStart + PAGINATION_PAGES_PER_PAGE_AMOUNT + PAGINATION_CORRECTION_VALUE - 1) * 6}&_limit=6`));
   };
 
   return (

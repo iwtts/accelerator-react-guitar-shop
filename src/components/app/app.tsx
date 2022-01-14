@@ -1,7 +1,6 @@
-// import { useSelector } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
-// import { AppRoute } from '../../const';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { AppRoute } from '../../const';
 import { selectGuitars } from '../../store/data/data-selectors';
 import Loading from '../loading/loading';
 import Main from '../main/main';
@@ -16,7 +15,10 @@ function App(): JSX.Element {
   }
   return (
     <Switch>
-      <Route exact path={'/:page_1'}>
+      <Route exact path={AppRoute.Main}>
+        <Redirect to={`${AppRoute.Main}:page_1`} />
+      </Route>
+      <Route exact path={`${AppRoute.Main}:page_1`}>
         <Main />
       </Route>
       <Route>
