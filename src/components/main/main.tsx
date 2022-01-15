@@ -18,6 +18,7 @@ import {
   selectSortType
 } from '../../store/user/user-selectors';
 import { useHistory } from 'react-router-dom';
+import { GUITARS_PER_PAGE_AMOUNT } from '../../const';
 
 function Main(): JSX.Element {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ function Main(): JSX.Element {
   const currentPaginationFilter = useSelector(selectPaginationFilter);
 
   const urlPageNumber = `page_${currentPageNumber}`;
-  const urlString = urlPageNumber + currentSortType + currentSortOder + currentMinPrice + currentMaxPrice + currentFilter;
+  const urlString = urlPageNumber + currentSortType + currentSortOder + currentFilter + currentMinPrice + currentMaxPrice;
   const guitarsRequestString = currentPaginationFilter + currentSortType + currentSortOder + currentMinPrice + currentMaxPrice + currentFilter;
 
   useEffect(() => {
@@ -44,9 +45,10 @@ function Main(): JSX.Element {
 
   const guitars = useSelector(selectGuitars);
   const isDataLoaded = useSelector(selectDataLoadingStatus);
-  const correntGuitarsLength = () => {
+
+  const getInitialGuitars = () => {
     if (!currentPaginationFilter) {
-      return guitars.slice(0, 9);
+      return guitars.slice(0, GUITARS_PER_PAGE_AMOUNT);
     }
     return guitars;
   };
@@ -67,7 +69,7 @@ function Main(): JSX.Element {
           <div className="catalog">
             <Filter guitars={guitars} />
             <Sort sortType={currentSortType} />
-            <CardsCatalog guitars={correntGuitarsLength()} />
+            <CardsCatalog guitars={getInitialGuitars()} />
             <Pagination />
           </div>}
         </div>

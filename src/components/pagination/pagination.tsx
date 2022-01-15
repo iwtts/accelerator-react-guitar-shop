@@ -1,18 +1,23 @@
 import clsx from 'clsx';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import {
   GUITARS_PER_PAGE_AMOUNT,
   PAGINATION_CORRECTION_VALUE,
-  PAGINATION_PAGES_PER_PAGE_AMOUNT
+  PAGINATION_PAGES_PER_PAGE_AMOUNT,
+  SLICE_END_FOR_PAGINATION_EFECT,
+  SLICE_START_FOR_PAGINATION_EFECT
 } from '../../const';
 import { setCurrentPageNumber, setPaginationFilter } from '../../store/actions';
 import { getDataForPagination } from '../../store/api-actions';
 import { selectPaginationGuitars } from '../../store/data/data-selectors';
 import { selectCurrentPageNumber } from '../../store/user/user-selectors';
 
+
 function Pagination(): JSX.Element {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const guitars = useSelector(selectPaginationGuitars);
   const currentPageNumber = useSelector(selectCurrentPageNumber);
@@ -23,25 +28,31 @@ function Pagination(): JSX.Element {
   const sliceStart = PAGINATION_PAGES_PER_PAGE_AMOUNT * Math.floor((currentPageNumber - PAGINATION_CORRECTION_VALUE) / PAGINATION_PAGES_PER_PAGE_AMOUNT);
   const sliceEnd = sliceStart + PAGINATION_PAGES_PER_PAGE_AMOUNT;
 
+  // const pageNumberForPaginationEffect = +location.pathname.slice(SLICE_START_FOR_PAGINATION_EFECT, SLICE_END_FOR_PAGINATION_EFECT);
+
   useEffect(() => {
+    if (/page_/.test(location.pathname)) {
+      handlePageNumberChange(+location.pathname.slice(SLICE_START_FOR_PAGINATION_EFECT, SLICE_END_FOR_PAGINATION_EFECT));
+    }
     dispatch(getDataForPagination());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   const handlePageNumberChange = ( pageNumber: number) => {
     dispatch(setCurrentPageNumber(pageNumber));
-    dispatch(setPaginationFilter(`&_start=${(pageNumber - 1) * 6}&_limit=6`));
+    dispatch(setPaginationFilter(`&_start=${(pageNumber - PAGINATION_CORRECTION_VALUE) * GUITARS_PER_PAGE_AMOUNT}&_limit=${GUITARS_PER_PAGE_AMOUNT}`));
   };
 
   const handlePaginationBackClick = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
     dispatch(setCurrentPageNumber(sliceEnd - PAGINATION_PAGES_PER_PAGE_AMOUNT));
-    dispatch(setPaginationFilter(`&_start=${(sliceEnd - PAGINATION_PAGES_PER_PAGE_AMOUNT - 1) * 6}&_limit=6`));
+    dispatch(setPaginationFilter(`&_start=${(sliceEnd - PAGINATION_PAGES_PER_PAGE_AMOUNT - PAGINATION_CORRECTION_VALUE) * GUITARS_PER_PAGE_AMOUNT}&_limit=${GUITARS_PER_PAGE_AMOUNT}`));
   };
 
   const handlePaginationNextClick = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
     dispatch(setCurrentPageNumber(sliceStart + PAGINATION_PAGES_PER_PAGE_AMOUNT + PAGINATION_CORRECTION_VALUE));
-    dispatch(setPaginationFilter(`&_start=${(sliceStart + PAGINATION_PAGES_PER_PAGE_AMOUNT + PAGINATION_CORRECTION_VALUE - 1) * 6}&_limit=6`));
+    dispatch(setPaginationFilter(`&_start=${(sliceStart + PAGINATION_PAGES_PER_PAGE_AMOUNT + PAGINATION_CORRECTION_VALUE - PAGINATION_CORRECTION_VALUE) * GUITARS_PER_PAGE_AMOUNT}&_limit=${GUITARS_PER_PAGE_AMOUNT}`));
   };
 
   return (

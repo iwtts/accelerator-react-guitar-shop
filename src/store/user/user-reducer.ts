@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import {
   INITIAL_PAGE_NUMBER,
+  INITIAL_PAGINATION_FILTER,
   SortOrder,
   SortType } from '../../const';
 import { UserState } from '../../types/state';
@@ -22,7 +23,7 @@ const initialState: UserState = {
   minPrice: '',
   maxPrice: '',
   filter: '',
-  paginationFilter: '',
+  paginationFilter: INITIAL_PAGINATION_FILTER,
   currentPageNumber: INITIAL_PAGE_NUMBER,
 };
 

@@ -1,5 +1,6 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import {
   GuitarType,
   Price,
@@ -7,18 +8,53 @@ import {
 import { setFilter, setMaxPrice, setMinPrice } from '../../store/actions';
 import { Guitar } from '../../types/guitar';
 
+const PRICE_CORRECTION_VALUE = 15;
+
 type FilterProps = {
   guitars: Guitar[],
 }
 
 function Filter(props: FilterProps): JSX.Element {
   const dispatch = useDispatch();
+  const location = useLocation();
+
   const guitarsByPrice = props.guitars.slice().sort((a, b) => a.price - b.price);
 
   const cheapestGuitarPrice = guitarsByPrice[0].price.toString();
   const mostExpensiveGuitarPrice = guitarsByPrice[guitarsByPrice.length -1].price.toString();
 
   const [filters] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (new RegExp(`${Price.From}`).test(location.pathname)) {
+      dispatch(setMinPrice(`${location.pathname.slice(location.pathname.indexOf(`${Price.From}`), location.pathname.indexOf(`${Price.From}`) + PRICE_CORRECTION_VALUE)}`));
+    }
+    if (new RegExp(`${Price.To}`).test(location.pathname)) {
+      dispatch(setMaxPrice(`${location.pathname.slice(location.pathname.indexOf(`${Price.To}`), location.pathname.indexOf(`${Price.To}`) + PRICE_CORRECTION_VALUE)}`));
+    }
+    if (new RegExp(`${GuitarType.Acoustic}`).test(location.pathname) && !filters.includes(GuitarType.Acoustic)) {
+      filters.push(GuitarType.Acoustic);
+    }
+    if (new RegExp(`${GuitarType.Electric}`).test(location.pathname) && !filters.includes(GuitarType.Electric)) {
+      filters.push(GuitarType.Electric);
+    }
+    if (new RegExp(`${GuitarType.Ukulele}`).test(location.pathname) && !filters.includes(GuitarType.Ukulele)) {
+      filters.push(GuitarType.Ukulele);
+    }
+    if (new RegExp(`${StringCount.Four}`).test(location.pathname) && !filters.includes(StringCount.Four)) {
+      filters.push(StringCount.Four);
+    }
+    if (new RegExp(`${StringCount.Six}`).test(location.pathname) && !filters.includes(StringCount.Six)) {
+      filters.push(StringCount.Six);
+    }
+    if (new RegExp(`${StringCount.Seven}`).test(location.pathname) && !filters.includes(StringCount.Seven)) {
+      filters.push(StringCount.Seven);
+    }
+    if (new RegExp(`${StringCount.Twelve}`).test(location.pathname) && !filters.includes(StringCount.Twelve)) {
+      filters.push(StringCount.Twelve);
+    }
+    dispatch(setFilter(filters.join('')));
+  }, [dispatch, filters, location.pathname]);
 
   const handleMinPriceChange = (evt: ChangeEvent<HTMLInputElement> ) => {
     const modifiedValue = (+evt.target.value < +cheapestGuitarPrice) ? cheapestGuitarPrice : evt.target.value;

@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { SortOrder, SortType } from '../../const';
 import { setSortOrder, setSortType } from '../../store/actions';
 
@@ -8,7 +10,23 @@ type SortProps = {
 
 function Sort(props: SortProps): JSX.Element {
   const dispatch = useDispatch();
+  const location = useLocation();
   const currentSortType = props.sortType;
+
+  useEffect(() => {
+    if (new RegExp(`${SortType.Price}`).test(location.pathname)) {
+      dispatch(setSortType(SortType.Price));
+    }
+    if (new RegExp(`${SortType.Rating}`).test(location.pathname)) {
+      dispatch(setSortType(SortType.Rating));
+    }
+    if (new RegExp(`${SortOrder.Ascending}`).test(location.pathname)) {
+      dispatch(setSortOrder(SortOrder.Ascending));
+    }
+    if (new RegExp(`${SortOrder.Descending}`).test(location.pathname)) {
+      dispatch(setSortOrder(SortOrder.Descending));
+    }
+  }, [dispatch, location.pathname]);
 
   const handleSortByPriceBtnClick = () => {
     dispatch(setSortType(SortType.Price));
