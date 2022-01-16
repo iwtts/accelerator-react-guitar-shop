@@ -12,8 +12,7 @@ import {
 import { setCurrentPageNumber, setPaginationFilter } from '../../store/actions';
 import { getDataForPagination } from '../../store/api-actions';
 import { selectPaginationGuitars } from '../../store/data/data-selectors';
-import { selectCurrentPageNumber } from '../../store/user/user-selectors';
-
+import { selectCurrentPageNumber, selectFilter, selectMaxPrice, selectMinPrice, selectSortOrder, selectSortType } from '../../store/user/user-selectors';
 
 function Pagination(): JSX.Element {
   const dispatch = useDispatch();
@@ -21,22 +20,36 @@ function Pagination(): JSX.Element {
 
   const guitars = useSelector(selectPaginationGuitars);
   const currentPageNumber = useSelector(selectCurrentPageNumber);
+  const currentSortType = useSelector(selectSortType);
+  const currentSortOder = useSelector(selectSortOrder);
+  const currentMinPrice = useSelector(selectMinPrice);
+  const currentMaxPrice = useSelector(selectMaxPrice);
+  const currentFilter = useSelector(selectFilter);
 
-  const paginationListItemsAmount = Math.floor(guitars.length / GUITARS_PER_PAGE_AMOUNT);
+  const rawPaginationListItemsAmount = Math.floor(guitars.length / GUITARS_PER_PAGE_AMOUNT);
+
+  const getPaginationItemsAmount = () => {
+    if (rawPaginationListItemsAmount === 0) {
+      return PAGINATION_CORRECTION_VALUE;
+    }
+    return rawPaginationListItemsAmount;
+  };
+
+  const paginationListItemsAmount = getPaginationItemsAmount();
+
   const paginationListItems = Array.from({length: paginationListItemsAmount}, (_item, index) => index + PAGINATION_CORRECTION_VALUE);
 
   const sliceStart = PAGINATION_PAGES_PER_PAGE_AMOUNT * Math.floor((currentPageNumber - PAGINATION_CORRECTION_VALUE) / PAGINATION_PAGES_PER_PAGE_AMOUNT);
   const sliceEnd = sliceStart + PAGINATION_PAGES_PER_PAGE_AMOUNT;
 
-  // const pageNumberForPaginationEffect = +location.pathname.slice(SLICE_START_FOR_PAGINATION_EFECT, SLICE_END_FOR_PAGINATION_EFECT);
-
   useEffect(() => {
     if (/page_/.test(location.pathname)) {
-      handlePageNumberChange(+location.pathname.slice(SLICE_START_FOR_PAGINATION_EFECT, SLICE_END_FOR_PAGINATION_EFECT));
+      // handlePageNumberChange(+location.pathname.slice(SLICE_START_FOR_PAGINATION_EFECT, SLICE_END_FOR_PAGINATION_EFECT));
+      dispatch(setCurrentPageNumber(+location.pathname.slice(SLICE_START_FOR_PAGINATION_EFECT, SLICE_END_FOR_PAGINATION_EFECT)));
+      dispatch(setPaginationFilter(`&_start=${(+location.pathname.slice(SLICE_START_FOR_PAGINATION_EFECT, SLICE_END_FOR_PAGINATION_EFECT) - PAGINATION_CORRECTION_VALUE) * GUITARS_PER_PAGE_AMOUNT}&_limit=${GUITARS_PER_PAGE_AMOUNT}`));
     }
-    dispatch(getDataForPagination());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+    dispatch(getDataForPagination(currentSortType, currentSortOder, currentMinPrice, currentMaxPrice, currentFilter));
+  }, [currentFilter, currentMaxPrice, currentMinPrice, currentSortOder, currentSortType, dispatch, location.pathname]);
 
   const handlePageNumberChange = ( pageNumber: number) => {
     dispatch(setCurrentPageNumber(pageNumber));
@@ -93,7 +106,7 @@ function Pagination(): JSX.Element {
                 </a>
               </li>);
           })}
-        {currentPageNumber !== paginationListItemsAmount && (
+        {(currentPageNumber !== paginationListItemsAmount && paginationListItemsAmount > PAGINATION_PAGES_PER_PAGE_AMOUNT) && (
           <li className="pagination__page pagination__page--next" id="next">
             <a
               className="link pagination__page-link"

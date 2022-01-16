@@ -35,7 +35,7 @@ describe('Component: Filter', () => {
     render(
       <Redux.Provider store={store}>
         <Router history={history}>
-          <Filter guitars={mockGuitars} />
+          <Filter />
         </Router>
       </Redux.Provider>);
 

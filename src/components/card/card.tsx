@@ -18,7 +18,7 @@ function Card(props : CardProps): JSX.Element {
 
   return (
     <div className="product-card">
-      <img src={`../${previewImg}`} srcSet={`${previewImg}@2x.jpg 2x`} width="75" height="190" alt={name}>
+      <img src={`../${previewImg}`} width="75" height="190" alt={name}>
       </img>
       <div className="product-card__info">
         <div className="rate product-card__rate" aria-hidden="true"><span className="visually-hidden">Рейтинг:</span>

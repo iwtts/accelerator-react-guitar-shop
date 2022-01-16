@@ -28,9 +28,9 @@ const getDataForSearch = (nameRef: string): ThunkActionResult =>
       });
   };
 
-const getDataForPagination = (): ThunkActionResult =>
+const getDataForPagination = (...params: string[]): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    await api.get(`${ApiRoute.Guitars}`)
+    await api.get(`${ApiRoute.GuitarsWithComments}${params.join('')}`)
       .then(({data}) => {
         dispatch(setPaginationGuitars(data));
       })

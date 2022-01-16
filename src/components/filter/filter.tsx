@@ -1,27 +1,39 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import {
   GuitarType,
   Price,
   StringCount } from '../../const';
 import { setFilter, setMaxPrice, setMinPrice } from '../../store/actions';
-import { Guitar } from '../../types/guitar';
+import { selectPaginationGuitars } from '../../store/data/data-selectors';
 
 const PRICE_CORRECTION_VALUE = 15;
 
-type FilterProps = {
-  guitars: Guitar[],
-}
-
-function Filter(props: FilterProps): JSX.Element {
+function Filter(): JSX.Element {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const guitarsByPrice = props.guitars.slice().sort((a, b) => a.price - b.price);
+  const guitars = useSelector(selectPaginationGuitars);
 
-  const cheapestGuitarPrice = guitarsByPrice[0].price.toString();
-  const mostExpensiveGuitarPrice = guitarsByPrice[guitarsByPrice.length -1].price.toString();
+  const guitarsByPrice = guitars.slice().sort((a, b) => a.price - b.price);
+
+  const getCheapestGuitarPrice = () => {
+    if(guitars.length) {
+      return guitarsByPrice[0].price.toString();
+    }
+    return '0';
+  };
+
+  const getMostExpensiveGuitarPrice = () => {
+    if(guitars.length) {
+      return guitarsByPrice[guitarsByPrice.length -1].price.toString();
+    }
+    return '0';
+  };
+
+  const cheapestGuitarPrice = getCheapestGuitarPrice();
+  const mostExpensiveGuitarPrice = getMostExpensiveGuitarPrice();
 
   const [filters] = useState<string[]>([]);
 
@@ -30,7 +42,7 @@ function Filter(props: FilterProps): JSX.Element {
       dispatch(setMinPrice(`${location.pathname.slice(location.pathname.indexOf(`${Price.From}`), location.pathname.indexOf(`${Price.From}`) + PRICE_CORRECTION_VALUE)}`));
     }
     if (new RegExp(`${Price.To}`).test(location.pathname)) {
-      dispatch(setMaxPrice(`${location.pathname.slice(location.pathname.indexOf(`${Price.To}`), location.pathname.indexOf(`${Price.To}`) + PRICE_CORRECTION_VALUE)}`));
+      dispatch(setMaxPrice(`${location.pathname.slice(location.pathname.indexOf(`${Price.To}`))}`));
     }
     if (new RegExp(`${GuitarType.Acoustic}`).test(location.pathname) && !filters.includes(GuitarType.Acoustic)) {
       filters.push(GuitarType.Acoustic);
