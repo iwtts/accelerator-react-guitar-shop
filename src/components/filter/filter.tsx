@@ -7,12 +7,19 @@ import {
   StringCount } from '../../const';
 import { setFilter, setMaxPrice, setMinPrice } from '../../store/actions';
 import { selectPaginationGuitars } from '../../store/data/data-selectors';
+import { selectMaxPrice, selectMinPrice } from '../../store/user/user-selectors';
 
 const PRICE_CORRECTION_VALUE = 15;
+const PRICE_SLICE_VALUE = 11;
 
 function Filter(): JSX.Element {
   const dispatch = useDispatch();
   const location = useLocation();
+  const minPrice = useSelector(selectMinPrice);
+  const maxPrice = useSelector(selectMaxPrice);
+
+  const minPriceValue = minPrice.slice(PRICE_SLICE_VALUE);
+  const maxPriceValue = maxPrice.slice(PRICE_SLICE_VALUE);
 
   const guitars = useSelector(selectPaginationGuitars);
 
@@ -70,14 +77,16 @@ function Filter(): JSX.Element {
 
   const handleMinPriceChange = (evt: ChangeEvent<HTMLInputElement> ) => {
     const modifiedValue = (+evt.target.value < +cheapestGuitarPrice) ? cheapestGuitarPrice : evt.target.value;
-    evt.target.value = modifiedValue;
-    dispatch(setMinPrice(`${Price.From}${modifiedValue}`));
+    if (evt.target.value && modifiedValue < maxPriceValue) {
+      dispatch(setMinPrice(`${Price.From}${modifiedValue}`));
+    }
   };
 
   const handleMaxPriceChange = (evt: ChangeEvent<HTMLInputElement> ) => {
     const modifiedValue = (+evt.target.value > +mostExpensiveGuitarPrice) ? mostExpensiveGuitarPrice : evt.target.value;
-    evt.target.value = modifiedValue;
-    dispatch(setMaxPrice((`${Price.To}${modifiedValue}`)));
+    if (evt.target.value && modifiedValue > minPriceValue) {
+      dispatch(setMaxPrice((`${Price.To}${modifiedValue}`)));
+    }
   };
 
   const handleFilterChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -103,6 +112,7 @@ function Filter(): JSX.Element {
               id="priceMin"
               name="от"
               min='0'
+              max={maxPriceValue}
               onBlur={handleMinPriceChange}
             >
             </input>
@@ -114,7 +124,7 @@ function Filter(): JSX.Element {
               placeholder={mostExpensiveGuitarPrice}
               id="priceMax"
               name="до"
-              min='0'
+              min={minPriceValue}
               onBlur={handleMaxPriceChange}
             >
             </input>

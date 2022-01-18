@@ -55,7 +55,7 @@ function Main(): JSX.Element {
   };
 
   return (
-    <>
+    <div className='wrapper'>
       <Header />
       <main className="page-content">
         <div className="container">
@@ -76,7 +76,7 @@ function Main(): JSX.Element {
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
 

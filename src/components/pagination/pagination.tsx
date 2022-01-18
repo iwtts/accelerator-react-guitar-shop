@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import {
   GUITARS_PER_PAGE_AMOUNT,
+  INITIAL_PAGE_NUMBER,
   PAGINATION_CORRECTION_VALUE,
   PAGINATION_PAGES_PER_PAGE_AMOUNT,
   SLICE_END_FOR_PAGINATION_EFECT,
@@ -44,7 +45,6 @@ function Pagination(): JSX.Element {
 
   useEffect(() => {
     if (/page_/.test(location.pathname)) {
-      // handlePageNumberChange(+location.pathname.slice(SLICE_START_FOR_PAGINATION_EFECT, SLICE_END_FOR_PAGINATION_EFECT));
       dispatch(setCurrentPageNumber(+location.pathname.slice(SLICE_START_FOR_PAGINATION_EFECT, SLICE_END_FOR_PAGINATION_EFECT)));
       dispatch(setPaginationFilter(`&_start=${(+location.pathname.slice(SLICE_START_FOR_PAGINATION_EFECT, SLICE_END_FOR_PAGINATION_EFECT) - PAGINATION_CORRECTION_VALUE) * GUITARS_PER_PAGE_AMOUNT}&_limit=${GUITARS_PER_PAGE_AMOUNT}`));
     }
@@ -58,14 +58,16 @@ function Pagination(): JSX.Element {
 
   const handlePaginationBackClick = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
-    dispatch(setCurrentPageNumber(sliceEnd - PAGINATION_PAGES_PER_PAGE_AMOUNT));
-    dispatch(setPaginationFilter(`&_start=${(sliceEnd - PAGINATION_PAGES_PER_PAGE_AMOUNT - PAGINATION_CORRECTION_VALUE) * GUITARS_PER_PAGE_AMOUNT}&_limit=${GUITARS_PER_PAGE_AMOUNT}`));
+    const newPageNumber = currentPageNumber - PAGINATION_CORRECTION_VALUE;
+    dispatch(setCurrentPageNumber(newPageNumber));
+    dispatch(setPaginationFilter(`&_start=${(newPageNumber - PAGINATION_CORRECTION_VALUE) * GUITARS_PER_PAGE_AMOUNT}&_limit=${GUITARS_PER_PAGE_AMOUNT}`));
   };
 
   const handlePaginationNextClick = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
-    dispatch(setCurrentPageNumber(sliceStart + PAGINATION_PAGES_PER_PAGE_AMOUNT + PAGINATION_CORRECTION_VALUE));
-    dispatch(setPaginationFilter(`&_start=${(sliceStart + PAGINATION_PAGES_PER_PAGE_AMOUNT + PAGINATION_CORRECTION_VALUE - PAGINATION_CORRECTION_VALUE) * GUITARS_PER_PAGE_AMOUNT}&_limit=${GUITARS_PER_PAGE_AMOUNT}`));
+    const newPageNumber = currentPageNumber + PAGINATION_CORRECTION_VALUE;
+    dispatch(setCurrentPageNumber(newPageNumber));
+    dispatch(setPaginationFilter(`&_start=${(newPageNumber - PAGINATION_CORRECTION_VALUE) * GUITARS_PER_PAGE_AMOUNT}&_limit=${GUITARS_PER_PAGE_AMOUNT}`));
   };
 
   return (
@@ -74,7 +76,7 @@ function Pagination(): JSX.Element {
       data-testid="pagination"
     >
       <ul className="pagination__list">
-        {sliceStart !== 0 && (
+        {currentPageNumber !== INITIAL_PAGE_NUMBER && (
           <li className="pagination__page pagination__page--next" id="next">
             <a
               className="link pagination__page-link"
@@ -106,7 +108,7 @@ function Pagination(): JSX.Element {
                 </a>
               </li>);
           })}
-        {(currentPageNumber !== paginationListItemsAmount && paginationListItemsAmount > PAGINATION_PAGES_PER_PAGE_AMOUNT) && (
+        {currentPageNumber !== paginationListItems[paginationListItems.length - PAGINATION_CORRECTION_VALUE] && (
           <li className="pagination__page pagination__page--next" id="next">
             <a
               className="link pagination__page-link"
