@@ -76,15 +76,37 @@ function Filter(): JSX.Element {
   }, [dispatch, filters, location.pathname]);
 
   const handleMinPriceChange = (evt: ChangeEvent<HTMLInputElement> ) => {
-    const modifiedValue = (+evt.target.value < +cheapestGuitarPrice) ? cheapestGuitarPrice : evt.target.value;
-    if (evt.target.value && modifiedValue < maxPriceValue) {
+    const getModifiedValue = () => {
+      if (+evt.target.value < +cheapestGuitarPrice) {
+        return cheapestGuitarPrice;
+      } else if (maxPriceValue && +evt.target.value > +maxPriceValue) {
+        return maxPriceValue;
+      }
+      return evt.target.value;
+    };
+
+    const modifiedValue = getModifiedValue();
+
+    if (evt.target.value) {
+      evt.target.value = modifiedValue;
       dispatch(setMinPrice(`${Price.From}${modifiedValue}`));
     }
   };
 
   const handleMaxPriceChange = (evt: ChangeEvent<HTMLInputElement> ) => {
-    const modifiedValue = (+evt.target.value > +mostExpensiveGuitarPrice) ? mostExpensiveGuitarPrice : evt.target.value;
-    if (evt.target.value && modifiedValue > minPriceValue) {
+    const getModifiedValue = () => {
+      if (+evt.target.value > +mostExpensiveGuitarPrice) {
+        return mostExpensiveGuitarPrice;
+      } else if (minPriceValue && +evt.target.value < +minPriceValue) {
+        return minPriceValue;
+      }
+      return evt.target.value;
+    };
+
+    const modifiedValue = getModifiedValue();
+
+    if (evt.target.value) {
+      evt.target.value = modifiedValue;
       dispatch(setMaxPrice((`${Price.To}${modifiedValue}`)));
     }
   };
@@ -112,7 +134,6 @@ function Filter(): JSX.Element {
               id="priceMin"
               name="от"
               min='0'
-              max={maxPriceValue}
               onBlur={handleMinPriceChange}
             >
             </input>
@@ -124,7 +145,7 @@ function Filter(): JSX.Element {
               placeholder={mostExpensiveGuitarPrice}
               id="priceMax"
               name="до"
-              min={minPriceValue}
+              min='0'
               onBlur={handleMaxPriceChange}
             >
             </input>
