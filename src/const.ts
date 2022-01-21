@@ -8,6 +8,10 @@ const INITIAL_PAGINATION_FILTER = `&_start=0&_limit=${GUITARS_PER_PAGE_AMOUNT}`;
 const SLICE_START_FOR_PAGINATION_EFECT = 6;
 const SLICE_END_FOR_PAGINATION_EFECT = 7;
 
+const PRICE_FORMAT_VALUE = 1000;
+const REVIEWS_PER_CLICK_AMOUNT = 3;
+const RATING_STARS_MAX = 5;
+
 enum AppRoute {
   Main = '/',
   Guitar = '/guitar',
@@ -76,6 +80,11 @@ enum RatingValue {
   Five = 5,
 }
 
+enum ProductTabType {
+  Characteristics = 'characteristics',
+  Description = 'description',
+}
+
 export {
   ERROR_MESSAGE,
   GUITARS_PER_PAGE_AMOUNT,
@@ -85,6 +94,9 @@ export {
   INITIAL_PAGINATION_FILTER,
   SLICE_START_FOR_PAGINATION_EFECT,
   SLICE_END_FOR_PAGINATION_EFECT,
+  PRICE_FORMAT_VALUE,
+  REVIEWS_PER_CLICK_AMOUNT,
+  RATING_STARS_MAX,
   AppRoute,
   ApiRoute,
   ActionType,
@@ -94,5 +106,6 @@ export {
   GuitarType,
   StringCount,
   NameSpace,
-  RatingValue
+  RatingValue,
+  ProductTabType
 };

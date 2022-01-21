@@ -1,4 +1,5 @@
 import { datatype } from 'faker';
+import { GuitarType } from '../types/guitar';
 
 const getMockImage = (): string => {
   const images = [
@@ -26,11 +27,11 @@ const getMockStringCount = (): number => {
   return stringCounts[datatype.number(stringCounts.length - 1)];
 };
 
-const getMockType = (): string => {
+const getMockType = (): GuitarType => {
   const types = [
-    'electric',
-    'acoustic',
-    'ukulele',
+    GuitarType.Electric,
+    GuitarType.Acoustic,
+    GuitarType.Ukulele,
   ];
 
   return types[datatype.number(types.length - 1)];

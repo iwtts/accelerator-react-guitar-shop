@@ -5,6 +5,7 @@ import { selectDataLoadingStatus } from '../../store/data/data-selectors';
 import Loading from '../loading/loading';
 import Main from '../main/main';
 import NotFound from '../not-found/not-found';
+import ProductPage from '../product-page/product-page';
 
 function App(): JSX.Element {
   const isLoading = useSelector(selectDataLoadingStatus);
@@ -17,6 +18,9 @@ function App(): JSX.Element {
 
   return (
     <Switch>
+      <Route exact path={'/:test'}>
+        <ProductPage />
+      </Route>
       <Route exact path={AppRoute.Main}>
         <Redirect to={`${AppRoute.Main}page_1`} />
       </Route>
