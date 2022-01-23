@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
 import { ProductTabType, RatingPanelType } from '../../const';
 import { selectGuitars } from '../../store/data/data-selectors';
 import { formatPrice, guitarTypeToReadable } from '../../utils';
@@ -9,10 +11,18 @@ import Footer from '../common/footer/footer';
 import Header from '../common/header/header';
 import ProductReview from '../product-review/product-review';
 import RatingPanel from '../common/rating-panel/rating-panel';
+import NotFound from '../common/not-found/not-found';
 
 function Product(): JSX.Element {
-  const tempProduct = useSelector(selectGuitars)[1];
+  const guitars = useSelector(selectGuitars);
   const [currentTab, setCurrentTab] = useState(ProductTabType.Characteristics);
+  const {id: productId} = useParams() as {id: string};
+
+  const product = guitars.find((item) => item.id.toString() === productId);
+
+  if (!product) {
+    return <NotFound />;
+  }
 
   const handleCharacteristicsBtnClick = () => {
     setCurrentTab(ProductTabType.Characteristics);
@@ -21,8 +31,6 @@ function Product(): JSX.Element {
   const handleDescriptionBtnClick = () => {
     setCurrentTab(ProductTabType.Description);
   };
-
-  const product = tempProduct;
 
   const {
     name,
@@ -53,7 +61,7 @@ function Product(): JSX.Element {
             </li>
           </ul>
           <div className="product-container">
-            <img className="product-container__img" src={previewImg} width="90" height="235" alt={name}></img>
+            <img className="product-container__img" src={`../${previewImg}`} width="90" height="235" alt={name}></img>
             <div className="product-container__info-wrapper">
               <h2 className="product-container__title title title--big title--uppercase">{name}</h2>
               <RatingPanel

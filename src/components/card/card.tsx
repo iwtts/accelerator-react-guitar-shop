@@ -1,4 +1,4 @@
-import { RatingPanelType } from '../../const';
+import { AppRoute, RatingPanelType } from '../../const';
 import { Guitar } from '../../types/guitar';
 import { formatPrice } from '../../utils';
 import RatingPanel from '../common/rating-panel/rating-panel';
@@ -14,6 +14,7 @@ function Card(props : CardProps): JSX.Element {
     rating,
     price,
     comments,
+    id,
   } = props.guitar;
 
   return (
@@ -37,7 +38,7 @@ function Card(props : CardProps): JSX.Element {
         </p>
       </div>
       <div className="product-card__buttons">
-        <a className="button button--mini" href="/">Подробнее</a>
+        <a className="button button--mini" href={`${AppRoute.Guitar}/${id}`}>Подробнее</a>
         <a className="button button--red button--mini button--add-to-cart" href="/">Купить</a>
       </div>
     </div>

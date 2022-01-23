@@ -18,14 +18,14 @@ function App(): JSX.Element {
 
   return (
     <Switch>
-      <Route exact path={'/test'}>
-        <Product />
-      </Route>
       <Route exact path={AppRoute.Main}>
         <Redirect to={`${AppRoute.Main}page_1`} />
       </Route>
       <Route exact path={`${AppRoute.Main}:page_1`}>
         <Catalog />
+      </Route>
+      <Route exact path={`${AppRoute.Guitar}/:id`}>
+        <Product />
       </Route>
       <Route>
         <NotFound />
