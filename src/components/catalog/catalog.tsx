@@ -20,6 +20,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import { GUITARS_PER_PAGE_AMOUNT } from '../../const';
 import CardsListEmpty from '../cards-list-empty/cards-list-empty';
+import BreadCrumbs from '../common/bread-crumbs/bread-crumbs';
 
 function Catalog(): JSX.Element {
   const dispatch = useDispatch();
@@ -60,12 +61,7 @@ function Catalog(): JSX.Element {
       <main className="page-content">
         <div className="container">
           <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
-          <ul className="breadcrumbs page-content__breadcrumbs">
-            <li className="breadcrumbs__item"><a className="link" href="./main.html">Главная</a>
-            </li>
-            <li className="breadcrumbs__item"><a className="link" href="/">Каталог</a>
-            </li>
-          </ul>
+          <BreadCrumbs />
           {isDataLoaded &&
           <div className="catalog">
             <CatalogFilter />

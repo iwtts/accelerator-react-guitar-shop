@@ -38,7 +38,7 @@ function Card(props : CardProps): JSX.Element {
         </p>
       </div>
       <div className="product-card__buttons">
-        <a className="button button--mini" href={`${AppRoute.Guitar}/${id}`}>Подробнее</a>
+        <a className="button button--mini" href={`${AppRoute.Catalog}/${id}`}>Подробнее</a>
         <a className="button button--red button--mini button--add-to-cart" href="/">Купить</a>
       </div>
     </div>

@@ -12,6 +12,7 @@ import Header from '../common/header/header';
 import ProductReview from '../product-review/product-review';
 import RatingPanel from '../common/rating-panel/rating-panel';
 import NotFound from '../common/not-found/not-found';
+import BreadCrumbs from '../common/bread-crumbs/bread-crumbs';
 
 function Product(): JSX.Element {
   const guitars = useSelector(selectGuitars);
@@ -52,14 +53,7 @@ function Product(): JSX.Element {
       <main className="page-content">
         <div className="container">
           <h1 className="page-content__title title title--bigger">{name}</h1>
-          <ul className="breadcrumbs page-content__breadcrumbs">
-            <li className="breadcrumbs__item"><a className="link" href="./main.html">Главная</a>
-            </li>
-            <li className="breadcrumbs__item"><a className="link" href="./main.html">Каталог</a>
-            </li>
-            <li className="breadcrumbs__item"><a className="link">{name}</a>
-            </li>
-          </ul>
+          <BreadCrumbs productName={name}/>
           <div className="product-container">
             <img className="product-container__img" src={`../${previewImg}`} width="90" height="235" alt={name}></img>
             <div className="product-container__info-wrapper">

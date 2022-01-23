@@ -62,7 +62,7 @@ function Header(): JSX.Element {
                   key={item.id}
                 >
                   <Link
-                    to={`${AppRoute.Guitar}/${item.id}`}
+                    to={`${AppRoute.Catalog}/${item.id}`}
                     className="form-search__select-item"
                   >
                     {item.name}

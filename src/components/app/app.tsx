@@ -24,7 +24,7 @@ function App(): JSX.Element {
       <Route exact path={`${AppRoute.Main}:page_1`}>
         <Catalog />
       </Route>
-      <Route exact path={`${AppRoute.Guitar}/:id`}>
+      <Route exact path={`${AppRoute.Catalog}/:id`}>
         <Product />
       </Route>
       <Route>

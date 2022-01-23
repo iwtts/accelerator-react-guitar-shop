@@ -14,7 +14,7 @@ const RATING_STARS_MAX = 5;
 
 enum AppRoute {
   Main = '/',
-  Guitar = '/guitar',
+  Catalog = '/catalog',
 }
 
 enum ApiRoute {
