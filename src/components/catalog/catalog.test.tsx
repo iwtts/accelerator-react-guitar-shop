@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 
-import Pagination from './pagination';
+import Catalog from './catalog';
 
 import { SortOrder, SortType } from '../../const';
 import { getMockGuitars } from '../../mocks/guitars';
@@ -30,15 +30,15 @@ const store = mockStore({
   },
 });
 
-describe('Component: Pagination', () => {
+describe('Component: Catalog', () => {
   it('should render correctly', () => {
     render(
       <Redux.Provider store={store}>
         <Router history={history}>
-          <Pagination />
+          <Catalog />
         </Router>
       </Redux.Provider>);
 
-    expect(screen.getByTestId('pagination')).toBeInTheDocument();
+    expect(screen.getByRole('heading', {level: 1})).toHaveTextContent(/Каталог гитар/i);
   });
 });

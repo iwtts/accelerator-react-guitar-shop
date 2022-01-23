@@ -1,17 +1,20 @@
+import clsx from 'clsx';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { SortOrder, SortType } from '../../const';
 import { setSortOrder, setSortType } from '../../store/actions';
+import { selectSortOrder } from '../../store/user/user-selectors';
 
-type SortProps = {
+type CatalogSortProps = {
   sortType: SortType,
 };
 
-function Sort(props: SortProps): JSX.Element {
+function CatalogSort(props: CatalogSortProps): JSX.Element {
   const dispatch = useDispatch();
   const location = useLocation();
   const currentSortType = props.sortType;
+  const currentSortOder = useSelector(selectSortOrder);
 
   useEffect(() => {
     if (new RegExp(`${SortType.Price}`).test(location.pathname)) {
@@ -71,13 +74,13 @@ function Sort(props: SortProps): JSX.Element {
       </div>
       <div className="catalog-sort__order">
         <button
-          className="catalog-sort__order-button catalog-sort__order-button--up"
+          className={clsx('catalog-sort__order-button', 'catalog-sort__order-button--up', currentSortOder === SortOrder.Ascending && 'catalog-sort__order-button--active')}
           aria-label="По возрастанию"
           onClick={handleSortOrderUpClick}
         >
         </button>
         <button
-          className="catalog-sort__order-button catalog-sort__order-button--down"
+          className={clsx('catalog-sort__order-button', 'catalog-sort__order-button--down', currentSortOder === SortOrder.Descending && 'catalog-sort__order-button--active')}
           aria-label="По убыванию"
           onClick={handleSortOrderDownClick}
         >
@@ -87,4 +90,4 @@ function Sort(props: SortProps): JSX.Element {
   );
 }
 
-export default Sort;
+export default CatalogSort;

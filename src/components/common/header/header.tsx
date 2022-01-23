@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
-import { getDataForSearch } from '../../store/api-actions';
-import { selectHeaderGuitars } from '../../store/user/user-selectors';
+import { AppRoute } from '../../../const';
+import { getDataForSearch } from '../../../store/api-actions';
+import { selectHeaderGuitars } from '../../../store/user/user-selectors';
 
 function Header(): JSX.Element {
   const dispatch = useDispatch();

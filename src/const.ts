@@ -85,6 +85,12 @@ enum ProductTabType {
   Description = 'description',
 }
 
+enum RatingPanelType {
+  Card = 'card',
+  ProductPage = 'product page',
+  Review = 'review',
+}
+
 export {
   ERROR_MESSAGE,
   GUITARS_PER_PAGE_AMOUNT,
@@ -107,5 +113,6 @@ export {
   StringCount,
   NameSpace,
   RatingValue,
-  ProductTabType
+  ProductTabType,
+  RatingPanelType
 };

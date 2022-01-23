@@ -1,5 +1,7 @@
-import { RatingValue } from '../../const';
+import { RatingPanelType } from '../../const';
 import { Guitar } from '../../types/guitar';
+import { formatPrice } from '../../utils';
+import RatingPanel from '../common/rating-panel/rating-panel';
 
 type CardProps = {
   guitar: Guitar;
@@ -14,30 +16,16 @@ function Card(props : CardProps): JSX.Element {
     comments,
   } = props.guitar;
 
-  const rateCount = comments?.length;
-
   return (
     <div className="product-card">
       <img src={`../${previewImg}`} width="75" height="190" alt={name}>
       </img>
       <div className="product-card__info">
-        <div className="rate product-card__rate" aria-hidden="true"><span className="visually-hidden">Рейтинг:</span>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref={rating >= RatingValue.One ? '#icon-full-star' : '#icon-star'}></use>
-          </svg>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref={rating >= RatingValue.Two ? '#icon-full-star' : '#icon-star'}></use>
-          </svg>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref={rating >= RatingValue.Three ? '#icon-full-star' : '#icon-star'}></use>
-          </svg>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref={rating >= RatingValue.Four ? '#icon-full-star' : '#icon-star'}></use>
-          </svg>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref={rating >= RatingValue.Five ? '#icon-full-star' : '#icon-star'}></use>
-          </svg><span className="rate__count">{rateCount}</span><span className="rate__message"></span>
-        </div>
+        <RatingPanel
+          type={RatingPanelType.Card}
+          rating={rating}
+          rateCount={comments?.length}
+        />
         <p
           className="product-card__title"
           data-testid="card-title"
@@ -45,7 +33,7 @@ function Card(props : CardProps): JSX.Element {
           {name}
         </p>
         <p className="product-card__price">
-          <span className="visually-hidden">Цена:</span>{price} ₽
+          <span className="visually-hidden">Цена:</span>{formatPrice(price)} ₽
         </p>
       </div>
       <div className="product-card__buttons">

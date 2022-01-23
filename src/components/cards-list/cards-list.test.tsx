@@ -1,18 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import CardsCatalog from './cards-catalog';
+import CardsList from './cards-list';
 import { getMockGuitars } from '../../mocks/guitars';
 
 const history = createMemoryHistory();
 
 const mockGuitars = getMockGuitars();
 
-describe('Component: CardsCatalog', () => {
+describe('Component: CardsList', () => {
   it('should render correctly', () => {
     render(
       <Router history={history}>
-        <CardsCatalog guitars={mockGuitars}/>
+        <CardsList guitars={mockGuitars}/>
       </Router>);
 
     expect(screen.getByTestId('cards-catalog')).toBeInTheDocument();

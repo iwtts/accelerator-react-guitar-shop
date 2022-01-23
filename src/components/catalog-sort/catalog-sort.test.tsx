@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 
-import Sort from './sort';
+import CatalogSort from './catalog-sort';
 
 import { SortOrder, SortType } from '../../const';
 import { getMockGuitars } from '../../mocks/guitars';
@@ -35,7 +35,7 @@ describe('Component: Sort', () => {
     render(
       <Redux.Provider store={store}>
         <Router history={history}>
-          <Sort sortType={SortType.Default}/>
+          <CatalogSort sortType={SortType.Default}/>
         </Router>
       </Redux.Provider>);
 

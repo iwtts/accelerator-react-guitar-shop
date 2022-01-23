@@ -4,10 +4,10 @@ import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 
-import Main from './main';
+import Header from './header';
 
-import { SortOrder, SortType } from '../../const';
-import { getMockGuitars } from '../../mocks/guitars';
+import { SortOrder, SortType } from '../../../const';
+import { getMockGuitars } from '../../../mocks/guitars';
 
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
@@ -30,15 +30,17 @@ const store = mockStore({
   },
 });
 
-describe('Component: Main', () => {
+describe('Component: Header', () => {
   it('should render correctly', () => {
     render(
       <Redux.Provider store={store}>
         <Router history={history}>
-          <Main />
+          <Header />
         </Router>
       </Redux.Provider>);
 
-    expect(screen.getByRole('heading', {level: 1})).toHaveTextContent(/Каталог гитар/i);
+    expect(screen.getByText(/Каталог/i)).toBeInTheDocument();
+    expect(screen.getByText(/Где купить?/i)).toBeInTheDocument();
+    expect(screen.getByText(/О компании/i)).toBeInTheDocument();
   });
 });

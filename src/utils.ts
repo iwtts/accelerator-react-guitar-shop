@@ -1,4 +1,4 @@
-import { PRICE_FORMAT_VALUE } from './const';
+// import { PRICE_FORMAT_VALUE } from './const';
 import { Guitar } from './types/guitar';
 
 const getSortedGuitars = (data: Guitar[], nameRef: string) => data.sort((a, b) => a.name.toLowerCase().indexOf(nameRef.toLowerCase()) - b.name.toLowerCase().indexOf(nameRef.toLowerCase()));
@@ -9,15 +9,21 @@ const guitarTypeToReadable = {
   'ukulele': 'Укулеле',
 };
 
+const ratingPanelTypeToStarSize = {
+  'card' : 12,
+  'product page': 14,
+  'review': 16,
+};
+
 const formatPrice = (price: number) => {
-  const formatValue = 1000;
-  const thousands = Math.floor(price / formatValue) ? Math.floor(price / formatValue) : '';
-  const rest = price % PRICE_FORMAT_VALUE ? price % PRICE_FORMAT_VALUE : '000';
-  return `${thousands} ${rest}`;
+  const n = price.toString();
+  const separator = ' ';
+  return n.replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, `$1${  separator}`);
 };
 
 export {
   getSortedGuitars,
   guitarTypeToReadable,
+  ratingPanelTypeToStarSize,
   formatPrice
 };

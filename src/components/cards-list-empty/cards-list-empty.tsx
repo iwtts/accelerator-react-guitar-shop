@@ -1,4 +1,4 @@
-function CardsCatalogEmpty(): JSX.Element {
+function CardsListEmpty(): JSX.Element {
   return(
     <div
       className="cards catalog__cards"
@@ -9,4 +9,4 @@ function CardsCatalogEmpty(): JSX.Element {
   );
 }
 
-export default CardsCatalogEmpty;
+export default CardsListEmpty;

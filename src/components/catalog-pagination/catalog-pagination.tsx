@@ -15,7 +15,7 @@ import { getDataForPagination } from '../../store/api-actions';
 import { selectPaginationGuitars } from '../../store/data/data-selectors';
 import { selectCurrentPageNumber, selectFilter, selectMaxPrice, selectMinPrice, selectSortOrder, selectSortType } from '../../store/user/user-selectors';
 
-function Pagination(): JSX.Element {
+function CatalogPagination(): JSX.Element {
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -124,4 +124,4 @@ function Pagination(): JSX.Element {
   );
 }
 
-export default Pagination;
+export default CatalogPagination;

@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { selectDataLoadingStatus, selectGuitars } from '../../store/data/data-selectors';
-import Header from '../header/header';
-import Filter from '../filter/filter';
-import Sort from '../sort/sort';
-import CardsCatalog from '../cards-catalog/cards-catalog';
-import Pagination from '../pagination/pagination';
-import Footer from '../footer/footer';
+import Header from '../common/header/header';
+import CatalogFilter from '../catalog-filter/catalog-filter';
+import CatalogSort from '../catalog-sort/catalog-sort';
+import CardsList from '../cards-list/cards-list';
+import CatalogPagination from '../catalog-pagination/catalog-pagination';
+import Footer from '../common/footer/footer';
 import { getDataGuitars } from '../../store/api-actions';
 import { useEffect } from 'react';
 import {
@@ -19,9 +19,9 @@ import {
 } from '../../store/user/user-selectors';
 import { useHistory } from 'react-router-dom';
 import { GUITARS_PER_PAGE_AMOUNT } from '../../const';
-import CardsCatalogEmpty from '../cards-catalog-empty/cards-catalog-empty';
+import CardsListEmpty from '../cards-list-empty/cards-list-empty';
 
-function Main(): JSX.Element {
+function Catalog(): JSX.Element {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -68,10 +68,10 @@ function Main(): JSX.Element {
           </ul>
           {isDataLoaded &&
           <div className="catalog">
-            <Filter />
-            <Sort sortType={currentSortType} />
-            {guitars.length ?  <CardsCatalog guitars={getInitialGuitars()} /> : <CardsCatalogEmpty />}
-            <Pagination />
+            <CatalogFilter />
+            <CatalogSort sortType={currentSortType} />
+            {guitars.length ?  <CardsList guitars={getInitialGuitars()} /> : <CardsListEmpty />}
+            <CatalogPagination />
           </div>}
         </div>
       </main>
@@ -80,4 +80,4 @@ function Main(): JSX.Element {
   );
 }
 
-export default Main;
+export default Catalog;

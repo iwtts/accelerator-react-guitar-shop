@@ -12,7 +12,7 @@ import { selectMaxPrice, selectMinPrice } from '../../store/user/user-selectors'
 const PRICE_CORRECTION_VALUE = 15;
 const PRICE_SLICE_VALUE = 11;
 
-function Filter(): JSX.Element {
+function CatalogFilter(): JSX.Element {
   const dispatch = useDispatch();
   const location = useLocation();
   const minPrice = useSelector(selectMinPrice);
@@ -256,4 +256,4 @@ function Filter(): JSX.Element {
   );
 }
 
-export default Filter;
+export default CatalogFilter;

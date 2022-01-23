@@ -1,11 +1,11 @@
 import { Guitar } from '../../types/guitar';
 import Card from '../card/card';
 
-type CardsCatalogProps = {
+type CardsListProps = {
   guitars: Guitar[],
 }
 
-function CardsCatalog(props: CardsCatalogProps): JSX.Element {
+function CardsList(props: CardsListProps): JSX.Element {
   return(
     <div
       className="cards catalog__cards"
@@ -22,4 +22,4 @@ function CardsCatalog(props: CardsCatalogProps): JSX.Element {
   );
 }
 
-export default CardsCatalog;
+export default CardsList;
