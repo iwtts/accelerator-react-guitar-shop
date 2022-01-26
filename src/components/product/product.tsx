@@ -3,7 +3,11 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { ProductTabType, RatingPanelType } from '../../const';
+import {
+  COMMENTS_SLICE_START,
+  COMMENTS_TO_SHOW_PER_STEP,
+  ProductTabType,
+  RatingPanelType } from '../../const';
 import { selectGuitars } from '../../store/data/data-selectors';
 import { formatPrice, guitarTypeToReadable } from '../../utils';
 
@@ -17,6 +21,7 @@ import BreadCrumbs from '../common/bread-crumbs/bread-crumbs';
 function Product(): JSX.Element {
   const guitars = useSelector(selectGuitars);
   const [currentTab, setCurrentTab] = useState(ProductTabType.Characteristics);
+  const [commentsSliceEnd, setCommentsSliceEnd] = useState(COMMENTS_TO_SHOW_PER_STEP);
   const {id: productId} = useParams() as {id: string};
 
   const product = guitars.find((item) => item.id.toString() === productId);
@@ -33,6 +38,10 @@ function Product(): JSX.Element {
     setCurrentTab(ProductTabType.Description);
   };
 
+  const handleReviewMoreBtnClick = () => {
+    setCommentsSliceEnd(commentsSliceEnd + COMMENTS_TO_SHOW_PER_STEP);
+  };
+
   const {
     name,
     previewImg,
@@ -45,7 +54,9 @@ function Product(): JSX.Element {
     rating,
   } = product;
 
-  const currentComments = comments?.slice(0, 3);
+  const commentsLength = comments ? comments.length : COMMENTS_SLICE_START;
+  const sortedComments = comments?.slice().sort((a, b) => Date.parse(b.createAt.toString()) - Date.parse(a.createAt.toString()));
+  const currentComments = sortedComments?.slice(COMMENTS_SLICE_START, commentsSliceEnd);
 
   return (
     <div className="wrapper">
@@ -101,7 +112,7 @@ function Product(): JSX.Element {
             {currentComments?.map((item) => (
               <ProductReview review={item} key={item.id}/>
             ))}
-            <button className="button button--medium reviews__more-button">Показать еще отзывы</button><a className="button button--up button--red-border button--big reviews__up-button" href="#header" style={{zIndex:1}}>Наверх</a>
+            {commentsSliceEnd < commentsLength && <button className="button button--medium reviews__more-button" onClick={handleReviewMoreBtnClick}>Показать еще отзывы</button>}<a className="button button--up button--red-border button--big reviews__up-button" href="#header" style={{zIndex:1}}>Наверх</a>
           </section>
         </div>
       </main>
