@@ -17,11 +17,15 @@ import ProductReview from '../product-review/product-review';
 import RatingPanel from '../common/rating-panel/rating-panel';
 import NotFound from '../common/not-found/not-found';
 import BreadCrumbs from '../common/bread-crumbs/bread-crumbs';
+import ModalReview from '../modal-review/modal-review';
+import ModalReviewSuccess from '../modal-review-success/modal-review-success';
 
 function Product(): JSX.Element {
   const guitars = useSelector(selectGuitars);
   const [currentTab, setCurrentTab] = useState(ProductTabType.Characteristics);
   const [commentsSliceEnd, setCommentsSliceEnd] = useState(COMMENTS_TO_SHOW_PER_STEP);
+  const [isModalReviewOpened, setIsModalReviewOpened] = useState(false);
+  const [isModalReviewSuccessOpened, setIsModalReviewSuccessOpened] = useState(false);
   const {id: productId} = useParams() as {id: string};
 
   const product = guitars.find((item) => item.id.toString() === productId);
@@ -40,6 +44,42 @@ function Product(): JSX.Element {
 
   const handleReviewMoreBtnClick = () => {
     setCommentsSliceEnd(commentsSliceEnd + COMMENTS_TO_SHOW_PER_STEP);
+  };
+
+  const handleReviewBtnClick = (evt: { preventDefault: () => void; }) => {
+    evt.preventDefault ();
+    setIsModalReviewOpened(true);
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', onEscKeydown);
+  };
+
+  const handleReviewModalClose = () => {
+    setIsModalReviewOpened(false);
+    document.body.style.overflow = 'scroll';
+    document.removeEventListener('keydown', onEscKeydown);
+  };
+
+  const handleReviewModalSuccessClose = () => {
+    setIsModalReviewSuccessOpened(false);
+    document.body.style.overflow = 'scroll';
+    document.removeEventListener('keydown', onEscKeydown);
+  };
+
+  const handleReviewModalSuccessOpen = () => {
+    setIsModalReviewSuccessOpened(true);
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', onEscKeydown);
+  };
+
+  const onEscKeydown = (evt: { keyCode: number; }) => {
+    if (evt.keyCode === 27) {
+      if (isModalReviewOpened) {
+        handleReviewModalClose();
+      }
+      if (isModalReviewSuccessOpened) {
+        handleReviewModalSuccessClose();
+      }
+    }
   };
 
   const {
@@ -108,7 +148,7 @@ function Product(): JSX.Element {
             </div>
           </div>
           <section className="reviews">
-            <h3 className="reviews__title title title--bigger">Отзывы</h3><a className="button button--red-border button--big reviews__sumbit-button" href="#">Оставить отзыв</a>
+            <h3 className="reviews__title title title--bigger">Отзывы</h3><a className="button button--red-border button--big reviews__sumbit-button" href="#" onClick={handleReviewBtnClick}>Оставить отзыв</a>
             {currentComments?.map((item) => (
               <ProductReview review={item} key={item.id}/>
             ))}
@@ -117,6 +157,16 @@ function Product(): JSX.Element {
         </div>
       </main>
       <Footer />
+      {isModalReviewOpened &&
+        <ModalReview
+          product={product}
+          handleModalClose={handleReviewModalClose}
+          handleModalOpen={handleReviewModalSuccessOpen}
+        />}
+      {isModalReviewSuccessOpened &&
+        <ModalReviewSuccess
+          handleModalClose={handleReviewModalSuccessClose}
+        />}
     </div>
   );
 }

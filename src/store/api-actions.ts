@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 import { ERROR_MESSAGE, ApiRoute } from '../const';
 import { ThunkActionResult } from '../types/action';
+import { CommentToPost } from '../types/comment';
 import { getSortedGuitars } from '../utils';
 import {
   getGuitars,
@@ -40,4 +41,17 @@ const getDataForPagination = (...params: string[]): ThunkActionResult =>
       });
   };
 
-export { getDataGuitars, getDataForSearch, getDataForPagination };
+const postReview = ({comment, rating, guitarId, advantage, disadvantage, userName}: CommentToPost): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    await api.post('/comments', {comment: comment, rating, guitarId, advantage, disadvantage, userName})
+      .then(({data}) => {
+        if(data){
+          dispatch(getDataGuitars());
+        }
+      })
+      .catch(() => {
+        toast.error(ERROR_MESSAGE);
+      });
+  };
+
+export { getDataGuitars, getDataForSearch, getDataForPagination, postReview};

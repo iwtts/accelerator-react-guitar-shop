@@ -13,6 +13,8 @@ const RATING_STARS_MAX = 5;
 const COMMENTS_SLICE_START = 0;
 const COMMENTS_TO_SHOW_PER_STEP = 3;
 
+const ITINIAL_RATING = '0';
+
 enum AppRoute {
   Main = '/',
   Catalog = '/catalog',
@@ -104,6 +106,7 @@ export {
   RATING_STARS_MAX,
   COMMENTS_SLICE_START,
   COMMENTS_TO_SHOW_PER_STEP,
+  ITINIAL_RATING,
   AppRoute,
   ApiRoute,
   ActionType,
