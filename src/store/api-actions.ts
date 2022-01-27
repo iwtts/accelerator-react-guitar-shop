@@ -46,7 +46,7 @@ const postReview = ({comment, rating, guitarId, advantage, disadvantage, userNam
     await api.post(`${ApiRoute.Comments}`, {comment: comment, rating, guitarId, advantage, disadvantage, userName})
       .then(({data}) => {
         if(data){
-          dispatch(getDataGuitars());
+          dispatch(getDataForPagination());
         }
       })
       .catch(() => {

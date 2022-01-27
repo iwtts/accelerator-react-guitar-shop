@@ -8,7 +8,7 @@ import {
   COMMENTS_TO_SHOW_PER_STEP,
   ProductTabType,
   RatingPanelType } from '../../const';
-import { selectGuitars } from '../../store/data/data-selectors';
+import { selectPaginationGuitars } from '../../store/data/data-selectors';
 import { formatPrice, guitarTypeToReadable } from '../../utils';
 
 import Footer from '../common/footer/footer';
@@ -21,7 +21,7 @@ import ModalReview from '../modal-review/modal-review';
 import ModalReviewSuccess from '../modal-review-success/modal-review-success';
 
 function Product(): JSX.Element {
-  const guitars = useSelector(selectGuitars);
+  const guitars = useSelector(selectPaginationGuitars);
   const [currentTab, setCurrentTab] = useState(ProductTabType.Characteristics);
   const [commentsSliceEnd, setCommentsSliceEnd] = useState(COMMENTS_TO_SHOW_PER_STEP);
   const [isModalReviewOpened, setIsModalReviewOpened] = useState(false);
