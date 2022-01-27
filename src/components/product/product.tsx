@@ -144,11 +144,11 @@ function Product(): JSX.Element {
             </div>
             <div className="product-container__price-wrapper">
               <p className="product-container__price-info product-container__price-info--title">Цена:</p>
-              <p className="product-container__price-info product-container__price-info--value">{formatPrice(price)} ₽</p><a className="button button--red button--big product-container__button" href="#">Добавить в корзину</a>
+              <p className="product-container__price-info product-container__price-info--value">{formatPrice(price)} ₽</p><a className="button button--red button--big product-container__button" href="/">Добавить в корзину</a>
             </div>
           </div>
           <section className="reviews">
-            <h3 className="reviews__title title title--bigger">Отзывы</h3><a className="button button--red-border button--big reviews__sumbit-button" href="#" onClick={handleReviewBtnClick}>Оставить отзыв</a>
+            <h3 className="reviews__title title title--bigger">Отзывы</h3><a className="button button--red-border button--big reviews__sumbit-button" href="#header" onClick={handleReviewBtnClick}>Оставить отзыв</a>
             {currentComments?.map((item) => (
               <ProductReview review={item} key={item.id}/>
             ))}
