@@ -8,7 +8,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createApi } from './services/api';
-import {  getDataGuitars } from './store/api-actions';
+import {  getDataForPagination, getDataGuitars } from './store/api-actions';
 import { rootReducer } from './store/root-reducer';
 import App from './components/app/app';
 
@@ -22,6 +22,7 @@ const store = createStore(
 );
 
 (store.dispatch(getDataGuitars()));
+(store.dispatch(getDataForPagination()));
 
 ReactDOM.render(
   <React.StrictMode>
