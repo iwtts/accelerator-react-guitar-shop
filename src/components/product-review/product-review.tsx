@@ -20,7 +20,7 @@ function ProductReview(props: ProductReviewProps): JSX.Element {
   const formatedDate = new Intl.DateTimeFormat('ru-RU', {day: 'numeric', month: 'long' }).format(reviewDate);
 
   return (
-    <div className="review">
+    <div className="review" data-testid="review">
       <div className="review__wrapper">
         <h4 className="review__title review__title--author title title--lesser">{userName}</h4><span className="review__date">{formatedDate}</span>
       </div>

@@ -15,6 +15,7 @@ describe('Reducer: dataReducer', () => {
       .toEqual({
         ...initialState,
         guitars: mockGuitars,
+        isDataLoaded: true,
       });
   });
 

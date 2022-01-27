@@ -20,6 +20,7 @@ const store = mockStore({
   DATA: {
     guitars: mockGuitars,
     paginationGuitars: mockGuitars,
+    isDataLoaded: true,
   },
   USER: {
     headerGuitars: [],
@@ -42,7 +43,7 @@ const fakeApp = (
 );
 
 describe('Application Routing', () => {
-  it('should render Main when user navigate to "/"', () => {
+  it('should render Catalog when user navigate to "/"', () => {
     store.dispatch = jest.fn();
     history.push(AppRoute.Main);
     render(fakeApp);
@@ -51,7 +52,7 @@ describe('Application Routing', () => {
   });
 
   it('should render NotFound when user navigate to non-existent route', () => {
-    history.push('/non-existent-route');
+    history.push('/non/existent/route');
     render(fakeApp);
 
     expect(screen.getByText(/страница не найдена/i)).toBeInTheDocument();

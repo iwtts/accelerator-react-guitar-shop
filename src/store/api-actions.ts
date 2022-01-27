@@ -43,7 +43,7 @@ const getDataForPagination = (...params: string[]): ThunkActionResult =>
 
 const postReview = ({comment, rating, guitarId, advantage, disadvantage, userName}: CommentToPost): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    await api.post('/comments', {comment: comment, rating, guitarId, advantage, disadvantage, userName})
+    await api.post(`${ApiRoute.Comments}`, {comment: comment, rating, guitarId, advantage, disadvantage, userName})
       .then(({data}) => {
         if(data){
           dispatch(getDataGuitars());

@@ -23,6 +23,7 @@ enum AppRoute {
 enum ApiRoute {
   Guitars = '/guitars',
   GuitarsWithComments = '/guitars?_embed=comments',
+  Comments = '/comments',
 }
 
 enum ActionType {

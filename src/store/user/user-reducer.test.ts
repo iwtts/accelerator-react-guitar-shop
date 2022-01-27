@@ -1,6 +1,6 @@
 import { GuitarType, SortOrder, SortType } from '../../const';
 import { getMockGuitars } from '../../mocks/guitars';
-import { setFilter, setHeaderGuitars, setMaxPrice, setMinPrice, setPaginationFilter, setSortOrder, setSortType } from '../actions';
+import { setCurrentPageNumber, setFilter, setHeaderGuitars, setMaxPrice, setMinPrice, setPaginationFilter, setSortOrder, setSortType } from '../actions';
 import { initialState, userReducer } from './user-reducer';
 
 describe('Reducer: userReducer', () => {
@@ -76,6 +76,16 @@ describe('Reducer: userReducer', () => {
       .toEqual({
         ...initialState,
         paginationFilter: mockPaginationFilter,
+      });
+  });
+
+  it('should update currentPageNumber', () => {
+    const mockPageNumber = 1;
+
+    expect(userReducer(initialState, setCurrentPageNumber(mockPageNumber)))
+      .toEqual({
+        ...initialState,
+        currentPageNumber: mockPageNumber,
       });
   });
 });
