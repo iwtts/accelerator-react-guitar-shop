@@ -74,10 +74,6 @@ function Product(): JSX.Element {
 
   const onEscKeydown = (evt: { keyCode: number; }) => {
     if (evt.keyCode === ESC_KEY_CODE) {
-      // if (isModalReviewOpened) {
-      // }
-      // if (isModalReviewSuccessOpened) {
-      // }
       handleReviewModalClose();
       handleReviewModalSuccessClose();
     }
