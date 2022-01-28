@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux';
 
 type ModalReviewProps = {
   product: Guitar,
-  handleModalClose: () => void,
-  handleModalOpen: () => void,
+  onModalClose: () => void,
+  onModalOpen: () => void,
 };
 
 function ModalReview(props: ModalReviewProps): JSX.Element {
@@ -57,9 +57,9 @@ function ModalReview(props: ModalReviewProps): JSX.Element {
       guitarId: props.product.id,
       advantage: advantage,
       disadvantage: disadvantage,
-    }));
-    props.handleModalClose();
-    props.handleModalOpen();
+    },
+    props.onModalOpen));
+    props.onModalClose();
   };
 
   return (
@@ -73,7 +73,7 @@ function ModalReview(props: ModalReviewProps): JSX.Element {
     >
       <div className="modal is-active modal--review modal-for-ui-kit">
         <div className="modal__wrapper">
-          <div className="modal__overlay" data-close-modal onClick={props.handleModalClose}></div>
+          <div className="modal__overlay" data-close-modal onClick={props.onModalClose}></div>
           <div className="modal__content">
             <h2 className="modal__header modal__header--review title title--medium">Оставить отзыв</h2>
             <h3 className="modal__product-name title title--medium-20 title--uppercase">{props.product.name}</h3>
@@ -107,7 +107,7 @@ function ModalReview(props: ModalReviewProps): JSX.Element {
               <textarea className="form-review__input form-review__input--textarea" id="user-name" rows={10} autoComplete="off" tabIndex={5} value={comment} onChange={handleCommentInput}></textarea>
               <button className="button button--medium-20 form-review__button" type="submit" tabIndex={6}>Отправить отзыв</button>
             </form>
-            <button className="modal__close-btn button-cross" type="button" aria-label="Закрыть" onClick={props.handleModalClose} tabIndex={7}><span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
+            <button className="modal__close-btn button-cross" type="button" aria-label="Закрыть" onClick={props.onModalClose} tabIndex={7}><span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
             </button>
           </div>
         </div>

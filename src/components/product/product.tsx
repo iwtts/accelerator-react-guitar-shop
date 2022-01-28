@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import {
   COMMENTS_SLICE_START,
   COMMENTS_TO_SHOW_PER_STEP,
+  ESC_KEY_CODE,
   ProductTabType,
   RatingPanelType } from '../../const';
 import { selectPaginationGuitars } from '../../store/data/data-selectors';
@@ -72,13 +73,13 @@ function Product(): JSX.Element {
   };
 
   const onEscKeydown = (evt: { keyCode: number; }) => {
-    if (evt.keyCode === 27) {
-      if (isModalReviewOpened) {
-        handleReviewModalClose();
-      }
-      if (isModalReviewSuccessOpened) {
-        handleReviewModalSuccessClose();
-      }
+    if (evt.keyCode === ESC_KEY_CODE) {
+      // if (isModalReviewOpened) {
+      // }
+      // if (isModalReviewSuccessOpened) {
+      // }
+      handleReviewModalClose();
+      handleReviewModalSuccessClose();
     }
   };
 
@@ -160,12 +161,12 @@ function Product(): JSX.Element {
       {isModalReviewOpened &&
         <ModalReview
           product={product}
-          handleModalClose={handleReviewModalClose}
-          handleModalOpen={handleReviewModalSuccessOpen}
+          onModalClose={handleReviewModalClose}
+          onModalOpen={handleReviewModalSuccessOpen}
         />}
       {isModalReviewSuccessOpened &&
         <ModalReviewSuccess
-          handleModalClose={handleReviewModalSuccessClose}
+          onModalClose={handleReviewModalSuccessClose}
         />}
     </div>
   );

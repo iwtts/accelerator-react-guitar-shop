@@ -1,3 +1,5 @@
+const ESC_KEY_CODE = 27;
+
 const ERROR_MESSAGE = 'Произошла ошибка';
 
 const GUITARS_PER_PAGE_AMOUNT = 9;
@@ -96,6 +98,7 @@ enum RatingPanelType {
 }
 
 export {
+  ESC_KEY_CODE,
   ERROR_MESSAGE,
   GUITARS_PER_PAGE_AMOUNT,
   PAGINATION_CORRECTION_VALUE,

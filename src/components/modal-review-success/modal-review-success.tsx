@@ -1,5 +1,5 @@
 type ModalReviewSuccessProps = {
-  handleModalClose: () => void,
+  onModalClose: () => void,
 };
 
 function ModalReviewSuccess(props: ModalReviewSuccessProps): JSX.Element {
@@ -14,16 +14,16 @@ function ModalReviewSuccess(props: ModalReviewSuccessProps): JSX.Element {
     >
       <div className="modal is-active modal--success modal-for-ui-kit">
         <div className="modal__wrapper">
-          <div className="modal__overlay" data-close-modal onClick={props.handleModalClose}></div>
+          <div className="modal__overlay" data-close-modal onClick={props.onModalClose}></div>
           <div className="modal__content">
             <svg className="modal__icon" width="26" height="20" aria-hidden="true">
               <use xlinkHref="#icon-success"></use>
             </svg>
             <p className="modal__message">Спасибо за ваш отзыв!</p>
             <div className="modal__button-container modal__button-container--review">
-              <button className="button button--small modal__button modal__button--review" onClick={props.handleModalClose}>К покупкам!</button>
+              <button className="button button--small modal__button modal__button--review" onClick={props.onModalClose}>К покупкам!</button>
             </div>
-            <button className="modal__close-btn button-cross" type="button" aria-label="Закрыть" onClick={props.handleModalClose}><span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
+            <button className="modal__close-btn button-cross" type="button" aria-label="Закрыть" onClick={props.onModalClose}><span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
             </button>
           </div>
         </div>

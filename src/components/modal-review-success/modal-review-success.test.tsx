@@ -6,13 +6,14 @@ import ModalReviewSuccess from './modal-review-success';
 const history = createMemoryHistory();
 
 describe('Component: ModalReviewSuccess', () => {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const mockhandler = () => {};
+  const mockhandler = () => {
+    document.body.style.overflow = 'hidden';
+  };
   it('should render correctly', () => {
     render(
       <Router history={history}>
         <ModalReviewSuccess
-          handleModalClose={mockhandler}
+          onModalClose={mockhandler}
         />
       </Router>);
 

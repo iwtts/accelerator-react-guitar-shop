@@ -35,16 +35,18 @@ const store = mockStore({
 });
 
 describe('Component: ModalReview', () => {  const mockGuitar = getMockGuitars()[0];
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const mockhandler = () => {};
+  const mockhandler = () => {
+    document.body.style.overflow = 'hidden';
+  };
+
   it('should render correctly', () => {
     render(
       <Redux.Provider store={store}>
         <Router history={history}>
           <ModalReview
             product={mockGuitar}
-            handleModalClose={mockhandler}
-            handleModalOpen={mockhandler}
+            onModalClose={mockhandler}
+            onModalOpen={mockhandler}
           />
         </Router>
       </Redux.Provider>);

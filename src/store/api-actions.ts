@@ -41,12 +41,13 @@ const getDataForPagination = (...params: string[]): ThunkActionResult =>
       });
   };
 
-const postReview = ({comment, rating, guitarId, advantage, disadvantage, userName}: CommentToPost): ThunkActionResult =>
+const postReview = ({comment, rating, guitarId, advantage, disadvantage, userName}: CommentToPost, openSuccessPopup?: () => void): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     await api.post(`${ApiRoute.Comments}`, {comment: comment, rating, guitarId, advantage, disadvantage, userName})
       .then(({data}) => {
         if(data){
           dispatch(getDataForPagination());
+          openSuccessPopup?.();
         }
       })
       .catch(() => {
