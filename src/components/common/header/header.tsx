@@ -58,7 +58,6 @@ function Header(): JSX.Element {
               {data.map((item) => (
                 <li
                   className="form-search__select-item"
-                  tabIndex={0}
                   key={item.id}
                 >
                   <Link

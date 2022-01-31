@@ -3,6 +3,7 @@ import { ITINIAL_RATING } from '../../const';
 import { postReview } from '../../store/api-actions';
 import { Guitar } from '../../types/guitar';
 import { useDispatch } from 'react-redux';
+import FocusTrap from 'focus-trap-react';
 
 type ModalReviewProps = {
   product: Guitar,
@@ -21,12 +22,12 @@ function ModalReview(props: ModalReviewProps): JSX.Element {
   const [disadvantage, setDisadvantage] = useState('');
 
   useEffect(() => {
-    if (rating === ITINIAL_RATING || !userName.length) {
+    if (rating === ITINIAL_RATING || !userName.length || !advantage.length || !disadvantage.length || !comment.length) {
       setIsValid(false);
     } else {
       setIsValid(true);
     }
-  }, [rating, userName]);
+  }, [advantage.length, comment.length, disadvantage.length, rating, userName]);
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setRating(evt.target.value);
@@ -72,45 +73,50 @@ function ModalReview(props: ModalReviewProps): JSX.Element {
       }}
     >
       <div className="modal is-active modal--review modal-for-ui-kit">
-        <div className="modal__wrapper">
-          <div className="modal__overlay" data-close-modal onClick={props.onModalClose}></div>
-          <div className="modal__content">
-            <h2 className="modal__header modal__header--review title title--medium">Оставить отзыв</h2>
-            <h3 className="modal__product-name title title--medium-20 title--uppercase">{props.product.name}</h3>
-            <form className="form-review" onSubmit={handleFormSubmit}>
-              <div className="form-review__wrapper">
-                <div className="form-review__name-wrapper">
-                  <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
-                  <input className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete="off" tabIndex={1} value={userName} onChange={handleUserNameInput}></input>
-                  {!isValid && <span className="form-review__warning">Заполните поле</span>}
-                </div>
-                <div><span className="form-review__label form-review__label--required">Ваша Оценка</span>
-                  <div className="rate rate--reverse">
-                    <input className="visually-hidden" type="radio" id="star-5" name="rate" value="5" tabIndex={2} onChange={handleRatingChange} checked={rating === '5'}></input>
-                    <label className="rate__label" htmlFor="star-5" title="Отлично"></label>
-                    <input className="visually-hidden" type="radio" id="star-4" name="rate" value="4" tabIndex={2} onChange={handleRatingChange} checked={rating === '4'}></input>
-                    <label className="rate__label" htmlFor="star-4" title="Хорошо"></label>
-                    <input className="visually-hidden" type="radio" id="star-3" name="rate" value="3" tabIndex={2} onChange={handleRatingChange} checked={rating === '3'}></input>
-                    <label className="rate__label" htmlFor="star-3" title="Нормально"></label>
-                    <input className="visually-hidden" type="radio" id="star-2" name="rate" value="2" tabIndex={2} onChange={handleRatingChange} checked={rating === '2'}></input>
-                    <label className="rate__label" htmlFor="star-2" title="Плохо"></label>
-                    <input className="visually-hidden" type="radio" id="star-1" name="rate" value="1" tabIndex={2} onChange={handleRatingChange} checked={rating === '1'}></input>
-                    <label className="rate__label" htmlFor="star-1" title="Ужасно"></label><span className="rate__count"></span>{!isValid && <span className="rate__message">Поставьте оценку</span>}
+        <FocusTrap>
+          <div className="modal__wrapper">
+            <div className="modal__overlay" data-close-modal onClick={props.onModalClose}></div>
+            <div className="modal__content">
+              <h2 className="modal__header modal__header--review title title--medium">Оставить отзыв</h2>
+              <h3 className="modal__product-name title title--medium-20 title--uppercase">{props.product.name}</h3>
+              <form className="form-review" onSubmit={handleFormSubmit}>
+                <div className="form-review__wrapper">
+                  <div className="form-review__name-wrapper">
+                    <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
+                    <input className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete="off" tabIndex={1} value={userName} onChange={handleUserNameInput}></input>
+                    {!userName.length && <span className="form-review__warning">Заполните поле</span>}
+                  </div>
+                  <div><span className="form-review__label form-review__label--required">Ваша Оценка</span>
+                    <div className="rate rate--reverse">
+                      <input className="visually-hidden" type="radio" id="star-5" name="rate" value="5" tabIndex={2} onChange={handleRatingChange} checked={rating === '5'}></input>
+                      <label className="rate__label" htmlFor="star-5" title="Отлично"></label>
+                      <input className="visually-hidden" type="radio" id="star-4" name="rate" value="4" tabIndex={2} onChange={handleRatingChange} checked={rating === '4'}></input>
+                      <label className="rate__label" htmlFor="star-4" title="Хорошо"></label>
+                      <input className="visually-hidden" type="radio" id="star-3" name="rate" value="3" tabIndex={2} onChange={handleRatingChange} checked={rating === '3'}></input>
+                      <label className="rate__label" htmlFor="star-3" title="Нормально"></label>
+                      <input className="visually-hidden" type="radio" id="star-2" name="rate" value="2" tabIndex={2} onChange={handleRatingChange} checked={rating === '2'}></input>
+                      <label className="rate__label" htmlFor="star-2" title="Плохо"></label>
+                      <input className="visually-hidden" type="radio" id="star-1" name="rate" value="1" tabIndex={2} onChange={handleRatingChange} checked={rating === '1'}></input>
+                      <label className="rate__label" htmlFor="star-1" title="Ужасно"></label><span className="rate__count"></span>{rating === ITINIAL_RATING && <span className="rate__message">Поставьте оценку</span>}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <label className="form-review__label" htmlFor="user-name">Достоинства</label>
-              <input className="form-review__input" id="pros" type="text" autoComplete="off" tabIndex={3} value={advantage} onChange={handleAdvantageInput}></input>
-              <label className="form-review__label" htmlFor="user-name">Недостатки</label>
-              <input className="form-review__input" id="user-name" type="text" autoComplete="off" tabIndex={4} value={disadvantage} onChange={handleDisadvantageInput}></input>
-              <label className="form-review__label" htmlFor="user-name">Комментарий</label>
-              <textarea className="form-review__input form-review__input--textarea" id="user-name" rows={10} autoComplete="off" tabIndex={5} value={comment} onChange={handleCommentInput}></textarea>
-              <button className="button button--medium-20 form-review__button" type="submit" tabIndex={6}>Отправить отзыв</button>
-            </form>
-            <button className="modal__close-btn button-cross" type="button" aria-label="Закрыть" onClick={props.onModalClose} tabIndex={7}><span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
-            </button>
+                <label className="form-review__label" htmlFor="user-name">Достоинства</label>
+                <input className="form-review__input" id="pros" type="text" autoComplete="off" tabIndex={3} value={advantage} onChange={handleAdvantageInput}></input>
+                {!advantage.length && <span className="form-review__warning">Заполните поле</span>}
+                <label className="form-review__label" htmlFor="user-name">Недостатки</label>
+                <input className="form-review__input" id="user-name" type="text" autoComplete="off" tabIndex={4} value={disadvantage} onChange={handleDisadvantageInput}></input>
+                {!disadvantage.length && <span className="form-review__warning">Заполните поле</span>}
+                <label className="form-review__label" htmlFor="user-name">Комментарий</label>
+                <textarea className="form-review__input form-review__input--textarea" id="user-name" rows={10} autoComplete="off" tabIndex={5} value={comment} onChange={handleCommentInput}></textarea>
+                {!comment.length && <span className="form-review__warning">Заполните поле</span>}
+                <button className="button button--medium-20 form-review__button" type="submit" tabIndex={6} disabled={!isValid}>Отправить отзыв</button>
+              </form>
+              <button className="modal__close-btn button-cross" type="button" aria-label="Закрыть" onClick={props.onModalClose} tabIndex={7}><span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
+              </button>
+            </div>
           </div>
-        </div>
+        </FocusTrap>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@
     "@reduxjs/toolkit": "1.5.0",
     "axios": "0.21.1",
     "clsx": "^1.1.1",
+    "focus-trap-react": "^8.9.1",
     "history": "4.10.1",
     "qs": "^6.10.3",
     "react": "17.0.2",
