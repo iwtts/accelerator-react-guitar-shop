@@ -6,6 +6,7 @@ import Loading from '../common/loading/loading';
 import Catalog from '../catalog/catalog';
 import NotFound from '../common/not-found/not-found';
 import Product from '../product/product';
+import Cart from '../cart/cart';
 
 function App(): JSX.Element {
   const isLoading = useSelector(selectDataLoadingStatus);
@@ -23,6 +24,9 @@ function App(): JSX.Element {
       </Route>
       <Route exact path={`${AppRoute.Main}:page_1`}>
         <Catalog />
+      </Route>
+      <Route exact path={`${AppRoute.Catalog}/cart`}>
+        <Cart />
       </Route>
       <Route exact path={`${AppRoute.Catalog}/:id`}>
         <Product />
