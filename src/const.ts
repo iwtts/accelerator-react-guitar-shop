@@ -20,6 +20,7 @@ const ITINIAL_RATING = '0';
 enum AppRoute {
   Main = '/',
   Catalog = '/catalog',
+  Cart = '/catalog/cart',
 }
 
 enum ApiRoute {

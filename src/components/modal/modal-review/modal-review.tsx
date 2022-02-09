@@ -1,7 +1,7 @@
 import { ChangeEvent, SetStateAction, useEffect, useState } from 'react';
-import { ITINIAL_RATING } from '../../const';
-import { postReview } from '../../store/api-actions';
-import { Guitar } from '../../types/guitar';
+import { ITINIAL_RATING } from '../../../const';
+import { postReview } from '../../../store/api-actions';
+import { Guitar } from '../../../types/guitar';
 import { useDispatch } from 'react-redux';
 import FocusTrap from 'focus-trap-react';
 

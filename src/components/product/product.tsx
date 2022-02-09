@@ -18,15 +18,21 @@ import ProductReview from '../product-review/product-review';
 import RatingPanel from '../common/rating-panel/rating-panel';
 import NotFound from '../common/not-found/not-found';
 import BreadCrumbs from '../common/bread-crumbs/bread-crumbs';
-import ModalReview from '../modal-review/modal-review';
-import ModalReviewSuccess from '../modal-review-success/modal-review-success';
+import ModalReview from '../modal/modal-review/modal-review';
+import ModalReviewSuccess from '../modal/modal-review-success/modal-review-success';
+import ModalCartAdd from '../modal/modal-cart-add/modal-cart-add';
+import ModalCartAddSuccess from '../modal/modal-cart-add-success/modal-cart-add-success';
 
 function Product(): JSX.Element {
   const guitars = useSelector(selectPaginationGuitars);
   const [currentTab, setCurrentTab] = useState(ProductTabType.Characteristics);
   const [commentsSliceEnd, setCommentsSliceEnd] = useState(COMMENTS_TO_SHOW_PER_STEP);
+
   const [isModalReviewOpened, setIsModalReviewOpened] = useState(false);
   const [isModalReviewSuccessOpened, setIsModalReviewSuccessOpened] = useState(false);
+  const [isModalCartAddOpened, setIsOpenModalCartAddOpened] = useState(false);
+  const [isModalCartAddSuccessOpened, setIsModalCartAddSuccessOpened] = useState(false);
+
   const {id: productId} = useParams() as {id: string};
 
   const product = guitars.find((item) => item.id.toString() === productId);
@@ -66,8 +72,33 @@ function Product(): JSX.Element {
     document.removeEventListener('keydown', onEscKeydown);
   };
 
+  const handleModalCartAddClose = () => {
+    setIsOpenModalCartAddOpened(false);
+    document.body.style.overflow = 'scroll';
+    document.removeEventListener('keydown', onEscKeydown);
+  };
+
+  const handleModalCartAddSuccessClose = () => {
+    setIsModalCartAddSuccessOpened(false);
+    document.body.style.overflow = 'scroll';
+    document.removeEventListener('keydown', onEscKeydown);
+  };
+
+  const handleModalCartAddOpen = (evt: { preventDefault: () => void; }) => {
+    evt.preventDefault();
+    setIsOpenModalCartAddOpened(true);
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', onEscKeydown);
+  };
+
   const handleReviewModalSuccessOpen = () => {
     setIsModalReviewSuccessOpened(true);
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', onEscKeydown);
+  };
+
+  const handleModalCartAddSuccessOpen = () => {
+    setIsModalCartAddSuccessOpened(true);
     document.body.style.overflow = 'hidden';
     document.addEventListener('keydown', onEscKeydown);
   };
@@ -76,6 +107,8 @@ function Product(): JSX.Element {
     if (evt.keyCode === ESC_KEY_CODE) {
       handleReviewModalClose();
       handleReviewModalSuccessClose();
+      handleModalCartAddClose();
+      handleModalCartAddSuccessClose();
     }
   };
 
@@ -141,7 +174,7 @@ function Product(): JSX.Element {
             </div>
             <div className="product-container__price-wrapper">
               <p className="product-container__price-info product-container__price-info--title">Цена:</p>
-              <p className="product-container__price-info product-container__price-info--value">{formatPrice(price)} ₽</p><a className="button button--red button--big product-container__button" href="/">Добавить в корзину</a>
+              <p className="product-container__price-info product-container__price-info--value">{formatPrice(price)} ₽</p><a className="button button--red button--big product-container__button" href="/" onClick={handleModalCartAddOpen}>Добавить в корзину</a>
             </div>
           </div>
           <section className="reviews">
@@ -163,6 +196,16 @@ function Product(): JSX.Element {
       {isModalReviewSuccessOpened &&
         <ModalReviewSuccess
           onModalClose={handleReviewModalSuccessClose}
+        />}
+      {isModalCartAddOpened &&
+        <ModalCartAdd
+          product={product}
+          onModalOpen={handleModalCartAddSuccessOpen}
+          onModalClose={handleModalCartAddClose}
+        />}
+      {isModalCartAddSuccessOpened &&
+        <ModalCartAddSuccess
+          onModalClose={handleModalCartAddSuccessClose}
         />}
     </div>
   );
