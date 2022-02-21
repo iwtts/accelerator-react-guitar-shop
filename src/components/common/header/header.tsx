@@ -4,6 +4,8 @@ import { AppRoute } from '../../../const';
 import { getDataForSearch } from '../../../store/api-actions';
 import { selectHeaderGuitars } from '../../../store/user/user-selectors';
 
+const GUITAR_AMOUNT_REDUCER_INITIAL_VALUE = 0;
+
 function Header(): JSX.Element {
   const dispatch = useDispatch();
   const data = useSelector(selectHeaderGuitars);
@@ -11,6 +13,17 @@ function Header(): JSX.Element {
   const handleSearchInputChange = (evt: { target: { value: string; }; }) => {
     dispatch(getDataForSearch(evt.target.value));
   };
+
+  let guitars = [];
+
+  const storageGuitarsString = sessionStorage.getItem('cartGuitars');
+  if (storageGuitarsString) {
+    guitars = JSON.parse(storageGuitarsString);
+  } else {
+    guitars = [];
+  }
+
+  const guitarsInCartAmount = guitars.reduce((accumulator: number, currentValue: { amount: number; }) => accumulator + currentValue.amount, GUITAR_AMOUNT_REDUCER_INITIAL_VALUE);
 
   return(
     <header className="header" id="header">
@@ -21,7 +34,7 @@ function Header(): JSX.Element {
         <nav className="main-nav">
           <ul className="main-nav__list">
             <li>
-              <a className="link main-nav__link link--current" href="/">Каталог</a>
+              <a className="link main-nav__link" href="/">Каталог</a>
             </li>
             <li>
               <a className="link main-nav__link" href="/">Где купить?</a>
@@ -71,10 +84,10 @@ function Header(): JSX.Element {
             </ul>
           }
         </div>
-        <a className="header__cart-link" href="/" aria-label="Корзина">
+        <a className="header__cart-link" href={AppRoute.Cart} aria-label="Корзина">
           <svg className="header__cart-icon" width="14" height="14" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
-          </svg><span className="visually-hidden">Перейти в корзину</span><span className="header__cart-count">2</span>
+          </svg><span className="visually-hidden">Перейти в корзину</span><span className="header__cart-count">{guitarsInCartAmount}</span>
         </a>
       </div>
     </header>
