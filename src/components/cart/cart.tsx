@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { SetStateAction, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { GUITAR_PRICE_REDUCER_INITIAL_VALUE, MAX_PERCENT_VALUE } from '../../const';
 import { postCoupon } from '../../store/api-actions';
+import { selectCurrentCoupon } from '../../store/user/user-selectors';
 import { Guitar } from '../../types/guitar';
 import { formatPrice } from '../../utils';
 import CartItem from '../cart-item/cart-item';
@@ -8,14 +10,12 @@ import BreadCrumbs from '../common/bread-crumbs/bread-crumbs';
 import Footer from '../common/footer/footer';
 import Header from '../common/header/header';
 
-const GUITAR_PRICE_REDUCER_INITIAL_VALUE = 0;
-
 function Cart(): JSX.Element {
   const dispatch = useDispatch();
   let guitars = [];
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [coupon, setCoupon] = useState('');
+  const [isCouponAccepted, setIsCouponAccepted] = useState(false);
 
   const storageGuitarsString = sessionStorage.getItem('cartGuitars');
   if (storageGuitarsString) {
@@ -24,13 +24,19 @@ function Cart(): JSX.Element {
     guitars = [];
   }
 
+  const dataDiscount = useSelector(selectCurrentCoupon);
+
   const totalPrice = guitars.reduce((accumulator: number, currentValue: { price: number, amount: number; }) => accumulator + currentValue.price * currentValue.amount, GUITAR_PRICE_REDUCER_INITIAL_VALUE);
-  const discount = 3000; //temp
+  const discount = totalPrice * (+dataDiscount / MAX_PERCENT_VALUE);
   const priceToPay = totalPrice - discount;
 
   const handleFormSubmit = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
-    dispatch(postCoupon(coupon));
+    dispatch(postCoupon(coupon, () => {setIsCouponAccepted(true);}));
+  };
+
+  const handleCouponInputChange = (evt: { target: { value: SetStateAction<string>; }; }) => {
+    setCoupon(evt.target.value);
   };
 
   return (
@@ -52,8 +58,8 @@ function Cart(): JSX.Element {
                 <form className="coupon__form" id="coupon-form" method="post" action="/" onSubmit={handleFormSubmit}>
                   <div className="form-input coupon__input">
                     <label className="visually-hidden">Промокод</label>
-                    <input type="text" placeholder="Введите промокод" id="coupon" name="coupon"></input>
-                    <p className="form-input__message form-input__message--success">Промокод принят</p>
+                    <input type="text" placeholder="Введите промокод" id="coupon" name="coupon" onChange={handleCouponInputChange}></input>
+                    {isCouponAccepted && <p className="form-input__message form-input__message--success">Промокод принят</p>}
                   </div>
                   <button className="button button--big coupon__button">Применить</button>
                 </form>

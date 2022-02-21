@@ -56,12 +56,13 @@ const postReview = ({comment, rating, guitarId, advantage, disadvantage, userNam
       });
   };
 
-const postCoupon = (couponString: string): ThunkActionResult =>
+const postCoupon = (couponString: string, onSuccessCb?: () => void): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    await api.post(`${ApiRoute.Coupon}`, couponString)
+    await api.post(`${ApiRoute.Coupon}`, { coupon: couponString })
       .then(({data}) => {
         if(data){
           dispatch(setCoupon(data));
+          onSuccessCb?.();
         }
       })
       .catch(() => {
