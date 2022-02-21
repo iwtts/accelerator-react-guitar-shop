@@ -17,6 +17,7 @@ type Guitar = {
   rating: number,
   price: number,
   comments?: Comment[],
+  amount?: number,
 };
 
 export { GuitarType };

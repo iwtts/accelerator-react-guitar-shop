@@ -1,5 +1,4 @@
-import { useSelector } from 'react-redux';
-import { selectGuitars } from '../../store/data/data-selectors';
+import { Guitar } from '../../types/guitar';
 import { formatPrice } from '../../utils';
 import CartItem from '../cart-item/cart-item';
 import BreadCrumbs from '../common/bread-crumbs/bread-crumbs';
@@ -9,9 +8,16 @@ import Header from '../common/header/header';
 const GUITAR_PRICE_REDUCER_INITIAL_VALUE = 0;
 
 function Cart(): JSX.Element {
-  const guitars = useSelector(selectGuitars);
+  let guitars = [];
 
-  const totalPrice = guitars.reduce((accumulator: number, currentValue: { price: number; }) => accumulator + currentValue.price, GUITAR_PRICE_REDUCER_INITIAL_VALUE);
+  const storageGuitarsString = sessionStorage.getItem('cartGuitars');
+  if (storageGuitarsString) {
+    guitars = JSON.parse(storageGuitarsString);
+  } else {
+    guitars = [];
+  }
+
+  const totalPrice = guitars.reduce((accumulator: number, currentValue: { price: number, amount: number; }) => accumulator + currentValue.price * currentValue.amount, GUITAR_PRICE_REDUCER_INITIAL_VALUE);
   const discount = 3000; //temp
   const priceToPay = totalPrice - discount;
 
@@ -24,7 +30,7 @@ function Cart(): JSX.Element {
           <BreadCrumbs productName='Корзина' />
           <div className="cart">
             {guitars
-              .map((item) => (
+              .map((item: Guitar) => (
                 <CartItem item={item} key={item.id}/>
               ))}
             <div className="cart__footer">
