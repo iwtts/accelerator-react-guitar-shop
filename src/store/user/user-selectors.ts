@@ -13,6 +13,7 @@ const selectMaxPrice = (state: State): string => state[NameSpace.User].maxPrice;
 const selectFilter = (state: State): string => state[NameSpace.User].filter;
 const selectPaginationFilter = (state: State): string => state[NameSpace.User].paginationFilter;
 const selectCurrentPageNumber = (state: State): number => state[NameSpace.User].currentPageNumber;
+const selectCurrentCoupon = (state: State): string => state[NameSpace.User].currentCoupon;
 
 export {
   selectHeaderGuitars,
@@ -22,5 +23,6 @@ export {
   selectMaxPrice,
   selectFilter,
   selectPaginationFilter,
-  selectCurrentPageNumber
+  selectCurrentPageNumber,
+  selectCurrentCoupon
 };

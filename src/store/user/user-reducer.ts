@@ -13,7 +13,8 @@ import {
   setSortType,
   setFilter,
   setPaginationFilter,
-  setCurrentPageNumber
+  setCurrentPageNumber,
+  setCoupon
 } from '../actions';
 
 const initialState: UserState = {
@@ -25,6 +26,7 @@ const initialState: UserState = {
   filter: '',
   paginationFilter: INITIAL_PAGINATION_FILTER,
   currentPageNumber: INITIAL_PAGE_NUMBER,
+  currentCoupon: '',
 };
 
 const userReducer = createReducer(initialState, (builder) => {
@@ -52,6 +54,9 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setCurrentPageNumber, (state, action) => {
       state.currentPageNumber = action.payload.currentPageNumber;
+    })
+    .addCase(setCoupon, (state, action) => {
+      state.currentCoupon = action.payload.currentCoupon;
     });
 });
 

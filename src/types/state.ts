@@ -17,6 +17,7 @@ type UserState = {
   filter: string,
   paginationFilter: string,
   currentPageNumber: number,
+  currentCoupon: string,
 }
 
 type State = RootState;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { ESC_KEY_CODE } from '../../const';
 import { Guitar } from '../../types/guitar';
 import { formatPrice, guitarTypeToReadable } from '../../utils';
@@ -47,6 +47,12 @@ function CartItem(props: CartItemProps): JSX.Element {
     }
   };
 
+  const [currentAmount, setCurrentAmount] = useState(amount);
+
+  const handleAmountChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setCurrentAmount(+evt.target.value);
+  };
+
   return (
     <div className="cart-item">
       <button className="cart-item__close-button button-cross" type="button" aria-label="Удалить" onClick={handleModalCartRemoveOpen}><span className="button-cross__icon"></span><span className="cart-item__close-button-interactive-area"></span>
@@ -66,7 +72,7 @@ function CartItem(props: CartItemProps): JSX.Element {
             <use xlinkHref="#icon-minus"></use>
           </svg>
         </button>
-        <input className="quantity__input" type="number" placeholder={amount?.toString()} id="2-count" name="2-count" max="99"></input>
+        <input className="quantity__input" type="number" placeholder={currentAmount?.toString()} id="2-count" name="2-count" max="99" onChange={handleAmountChange}></input>
         <button className="quantity__button" aria-label="Увеличить количество">
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-plus"></use>

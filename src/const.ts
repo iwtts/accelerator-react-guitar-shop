@@ -27,6 +27,7 @@ enum ApiRoute {
   Guitars = '/guitars',
   GuitarsWithComments = '/guitars?_embed=comments',
   Comments = '/comments',
+  Coupon = '/coupons',
 }
 
 enum ActionType {
@@ -41,6 +42,7 @@ enum ActionType {
   SetPaginationFilter = 'user/set-pagination-filter',
   SetCurrentPageNumber = 'user/set-current-page-number',
   RedirectToRoute = 'user/redirect-to-route',
+  SetCoupon = 'user/set-coupon',
 }
 
 enum SortType {

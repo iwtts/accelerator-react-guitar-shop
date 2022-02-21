@@ -5,6 +5,7 @@ import { CommentToPost } from '../types/comment';
 import { getSortedGuitars } from '../utils';
 import {
   getGuitars,
+  setCoupon,
   setHeaderGuitars,
   setPaginationGuitars } from './actions';
 
@@ -55,4 +56,17 @@ const postReview = ({comment, rating, guitarId, advantage, disadvantage, userNam
       });
   };
 
-export { getDataGuitars, getDataForSearch, getDataForPagination, postReview};
+const postCoupon = (couponString: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    await api.post(`${ApiRoute.Coupon}`, couponString)
+      .then(({data}) => {
+        if(data){
+          dispatch(setCoupon(data));
+        }
+      })
+      .catch(() => {
+        toast.error(ERROR_MESSAGE);
+      });
+  };
+
+export { getDataGuitars, getDataForSearch, getDataForPagination, postReview, postCoupon };

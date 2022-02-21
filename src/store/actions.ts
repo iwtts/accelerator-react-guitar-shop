@@ -86,7 +86,7 @@ const setPaginationFilter = createAction(
 const setCurrentPageNumber = createAction(
   ActionType.SetCurrentPageNumber,
   (currentPageNumber: number) => ({
-    payload:{
+    payload: {
       currentPageNumber: currentPageNumber,
     },
   }),
@@ -97,6 +97,15 @@ const redirectToRouter = createAction(
   (url: string) => ({
     payload: {
       url,
+    },
+  }),
+);
+
+const setCoupon = createAction(
+  ActionType.SetCoupon,
+  (coupon: string) => ({
+    payload: {
+      currentCoupon: coupon,
     },
   }),
 );
@@ -112,5 +121,6 @@ export {
   setFilter,
   setPaginationFilter,
   setCurrentPageNumber,
-  redirectToRouter
+  redirectToRouter,
+  setCoupon
 };

@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { postCoupon } from '../../store/api-actions';
 import { Guitar } from '../../types/guitar';
 import { formatPrice } from '../../utils';
 import CartItem from '../cart-item/cart-item';
@@ -8,7 +11,11 @@ import Header from '../common/header/header';
 const GUITAR_PRICE_REDUCER_INITIAL_VALUE = 0;
 
 function Cart(): JSX.Element {
+  const dispatch = useDispatch();
   let guitars = [];
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [coupon, setCoupon] = useState('');
 
   const storageGuitarsString = sessionStorage.getItem('cartGuitars');
   if (storageGuitarsString) {
@@ -20,6 +27,11 @@ function Cart(): JSX.Element {
   const totalPrice = guitars.reduce((accumulator: number, currentValue: { price: number, amount: number; }) => accumulator + currentValue.price * currentValue.amount, GUITAR_PRICE_REDUCER_INITIAL_VALUE);
   const discount = 3000; //temp
   const priceToPay = totalPrice - discount;
+
+  const handleFormSubmit = (evt: { preventDefault: () => void; }) => {
+    evt.preventDefault();
+    dispatch(postCoupon(coupon));
+  };
 
   return (
     <div className='wrapper'>
@@ -37,7 +49,7 @@ function Cart(): JSX.Element {
               <div className="cart__coupon coupon">
                 <h2 className="title title--little coupon__title">Промокод на скидку</h2>
                 <p className="coupon__info">Введите свой промокод, если он у вас есть.</p>
-                <form className="coupon__form" id="coupon-form" method="post" action="/">
+                <form className="coupon__form" id="coupon-form" method="post" action="/" onSubmit={handleFormSubmit}>
                   <div className="form-input coupon__input">
                     <label className="visually-hidden">Промокод</label>
                     <input type="text" placeholder="Введите промокод" id="coupon" name="coupon"></input>
