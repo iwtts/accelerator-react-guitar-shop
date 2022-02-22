@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { ESC_KEY_CODE } from '../../const';
 import { Guitar } from '../../types/guitar';
 import { formatPrice, guitarTypeToReadable } from '../../utils';
@@ -49,9 +49,26 @@ function CartItem(props: CartItemProps): JSX.Element {
 
   const [currentAmount, setCurrentAmount] = useState(amount);
 
+  const storageGuitarsString = sessionStorage.getItem('cartGuitars');
+
   const handleAmountChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setCurrentAmount(+evt.target.value);
+    let storageGuitars: Guitar[];
+    if (storageGuitarsString) {
+      storageGuitars = JSON.parse(storageGuitarsString);
+    } else {
+      storageGuitars = [];
+    }
+
+    const currentGuitar = storageGuitars.find((item) => item.id === props.item.id);
+    if (currentGuitar) {
+      currentGuitar.amount = +evt.target.value;
+      sessionStorage.setItem('cartGuitars', JSON.stringify(storageGuitars));
+    }
   };
+
+  useEffect(() => {
+    setCurrentAmount(props.item.amount);
+  }, [props.item.amount, storageGuitarsString]);
 
   return (
     <div className="cart-item">
