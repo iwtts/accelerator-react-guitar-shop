@@ -38,8 +38,8 @@ enum ActionType {
   SetFilter = 'user/set-filter',
   SetPaginationFilter = 'user/set-pagination-filter',
   SetCurrentPageNumber = 'user/set-current-page-number',
-  RedirectToRoute = 'user/redirect-to-route',
   SetCoupon = 'user/set-coupon',
+  SetCartGuitars = 'user/set-cart-guitars',
 }
 
 enum SortType {

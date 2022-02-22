@@ -92,20 +92,20 @@ const setCurrentPageNumber = createAction(
   }),
 );
 
-const redirectToRouter = createAction(
-  ActionType.RedirectToRoute,
-  (url: string) => ({
+const setDiscountPercent = createAction(
+  ActionType.SetCoupon,
+  (discountPercent: string) => ({
     payload: {
-      url,
+      discountPercent: discountPercent,
     },
   }),
 );
 
-const setCoupon = createAction(
-  ActionType.SetCoupon,
-  (coupon: string) => ({
+const setCartGuitars = createAction(
+  ActionType.SetCartGuitars,
+  (cartGuitars: Guitar[]) => ({
     payload: {
-      currentCoupon: coupon,
+      cartGuitars: cartGuitars,
     },
   }),
 );
@@ -121,6 +121,6 @@ export {
   setFilter,
   setPaginationFilter,
   setCurrentPageNumber,
-  redirectToRouter,
-  setCoupon
+  setDiscountPercent,
+  setCartGuitars
 };

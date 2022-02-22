@@ -14,7 +14,8 @@ import {
   setFilter,
   setPaginationFilter,
   setCurrentPageNumber,
-  setCoupon
+  setDiscountPercent,
+  setCartGuitars
 } from '../actions';
 
 const initialState: UserState = {
@@ -26,7 +27,8 @@ const initialState: UserState = {
   filter: '',
   paginationFilter: INITIAL_PAGINATION_FILTER,
   currentPageNumber: INITIAL_PAGE_NUMBER,
-  currentCoupon: '',
+  discountPercent: '',
+  cartGuitars: [],
 };
 
 const userReducer = createReducer(initialState, (builder) => {
@@ -55,8 +57,11 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(setCurrentPageNumber, (state, action) => {
       state.currentPageNumber = action.payload.currentPageNumber;
     })
-    .addCase(setCoupon, (state, action) => {
-      state.currentCoupon = action.payload.currentCoupon;
+    .addCase(setDiscountPercent, (state, action) => {
+      state.discountPercent = action.payload.discountPercent;
+    })
+    .addCase(setCartGuitars, (state, action) => {
+      state.cartGuitars = action.payload.cartGuitars;
     });
 });
 

@@ -5,7 +5,7 @@ import { CommentToPost } from '../types/comment';
 import { getSortedGuitars } from '../utils';
 import {
   getGuitars,
-  setCoupon,
+  setDiscountPercent,
   setHeaderGuitars,
   setPaginationGuitars } from './actions';
 
@@ -61,7 +61,7 @@ const postCoupon = (couponString: string, onSuccessCb?: () => void): ThunkAction
     await api.post(`${ApiRoute.Coupon}`, { coupon: couponString })
       .then(({data}) => {
         if(data){
-          dispatch(setCoupon(data));
+          dispatch(setDiscountPercent(data));
           onSuccessCb?.();
         }
       })

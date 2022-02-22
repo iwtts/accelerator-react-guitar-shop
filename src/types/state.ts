@@ -17,7 +17,8 @@ type UserState = {
   filter: string,
   paginationFilter: string,
   currentPageNumber: number,
-  currentCoupon: string,
+  discountPercent: string,
+  cartGuitars: Guitar[],
 }
 
 type State = RootState;
