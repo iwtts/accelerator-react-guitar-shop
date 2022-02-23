@@ -30,6 +30,8 @@ const store = mockStore({
     maxPrice: '',
     filter: '',
     paginationFilter: '',
+    discountPercent: '25',
+    cartGuitars: mockGuitars,
   },
 });
 

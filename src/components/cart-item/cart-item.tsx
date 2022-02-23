@@ -124,7 +124,7 @@ function CartItem(props: CartItemProps): JSX.Element {
         <img src={`../${previewImg}`} width="55" height="130" alt={name}></img>
       </div>
       <div className="product-info cart-item__info">
-        <p className="product-info__title">{`${guitarTypeToReadable[type]} ${name}`}</p>
+        <p className="product-info__title" data-testid="cart-item-title">{`${guitarTypeToReadable[type]} ${name}`}</p>
         <p className="product-info__info">{`Артикул: ${vendorCode}`}</p>
         <p className="product-info__info">{`${guitarTypeToReadable[type]}, ${stringCount} струнная`}</p>
       </div>
