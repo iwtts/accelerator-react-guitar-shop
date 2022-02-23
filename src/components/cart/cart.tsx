@@ -1,8 +1,9 @@
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GUITAR_PRICE_REDUCER_INITIAL_VALUE, MAX_PERCENT_VALUE } from '../../const';
+import { setCartGuitars } from '../../store/actions';
 import { postCoupon } from '../../store/api-actions';
-import { selectCurrentCoupon } from '../../store/user/user-selectors';
+import { selectCartGuitars, selectDiscountPercent } from '../../store/user/user-selectors';
 import { Guitar } from '../../types/guitar';
 import { formatPrice } from '../../utils';
 import CartItem from '../cart-item/cart-item';
@@ -12,21 +13,24 @@ import Header from '../common/header/header';
 
 function Cart(): JSX.Element {
   const dispatch = useDispatch();
-  let guitars = [];
+  const guitars = useSelector(selectCartGuitars);
 
   const [coupon, setCoupon] = useState('');
   const [isCouponAccepted, setIsCouponAccepted] = useState(false);
 
   const storageGuitarsString = sessionStorage.getItem('cartGuitars');
-  if (storageGuitarsString) {
-    guitars = JSON.parse(storageGuitarsString);
-  } else {
-    guitars = [];
-  }
 
-  const dataDiscount = useSelector(selectCurrentCoupon);
+  useEffect(() => {
+    if (storageGuitarsString) {
+      dispatch(setCartGuitars(JSON.parse(storageGuitarsString)));
+    } else {
+      dispatch(setCartGuitars([]));
+    }
+  }, [dispatch, storageGuitarsString]);
 
-  const totalPrice = guitars.reduce((accumulator: number, currentValue: { price: number, amount: number; }) => accumulator + currentValue.price * currentValue.amount, GUITAR_PRICE_REDUCER_INITIAL_VALUE);
+  const dataDiscount = useSelector(selectDiscountPercent);
+
+  const totalPrice = guitars.reduce((accumulator, currentValue) => accumulator + currentValue.price * ((currentValue.amount ? currentValue.amount : 1)), GUITAR_PRICE_REDUCER_INITIAL_VALUE);
   const discount = totalPrice * (+dataDiscount / MAX_PERCENT_VALUE);
   const priceToPay = totalPrice - discount;
 

@@ -1,6 +1,8 @@
 import { Guitar } from '../../../types/guitar';
 import { formatPrice, guitarTypeToReadable } from '../../../utils';
 import FocusTrap from 'focus-trap-react';
+import { useDispatch } from 'react-redux';
+import { setCartGuitars } from '../../../store/actions';
 
 type ModalCartAddProps = {
   product: Guitar,
@@ -18,6 +20,8 @@ function ModalCartAdd(props: ModalCartAddProps): JSX.Element {
     price,
   } = props.product;
 
+  const dispatch = useDispatch();
+
   const addToCart = (product: Guitar) => {
     const amountStep = 1;
     const storageGuitarsString = sessionStorage.getItem('cartGuitars');
@@ -34,9 +38,11 @@ function ModalCartAdd(props: ModalCartAddProps): JSX.Element {
     if (!currentGuitar) {
       storageGuitars = [...storageGuitars, {...product, amount: amountStep}];
       sessionStorage.setItem('cartGuitars', JSON.stringify(storageGuitars));
+      dispatch(setCartGuitars(storageGuitars));
     } else {
       currentGuitar.amount = Number(currentGuitar.amount) + amountStep;
       sessionStorage.setItem('cartGuitars', JSON.stringify(storageGuitars));
+      dispatch(setCartGuitars(storageGuitars));
     }
   };
 

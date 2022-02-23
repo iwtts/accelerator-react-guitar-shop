@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../../const';
+import { setCartGuitars } from '../../../store/actions';
 import { getDataForSearch } from '../../../store/api-actions';
-import { selectHeaderGuitars } from '../../../store/user/user-selectors';
+import { selectCartGuitars, selectHeaderGuitars } from '../../../store/user/user-selectors';
 
 const GUITAR_AMOUNT_REDUCER_INITIAL_VALUE = 0;
 
@@ -14,16 +16,18 @@ function Header(): JSX.Element {
     dispatch(getDataForSearch(evt.target.value));
   };
 
-  let guitars = [];
-
+  const guitars = useSelector(selectCartGuitars);
   const storageGuitarsString = sessionStorage.getItem('cartGuitars');
-  if (storageGuitarsString) {
-    guitars = JSON.parse(storageGuitarsString);
-  } else {
-    guitars = [];
-  }
 
-  const guitarsInCartAmount = guitars.reduce((accumulator: number, currentValue: { amount: number; }) => accumulator + currentValue.amount, GUITAR_AMOUNT_REDUCER_INITIAL_VALUE);
+  useEffect(() => {
+    if (storageGuitarsString) {
+      dispatch(setCartGuitars(JSON.parse(storageGuitarsString)));
+    } else {
+      dispatch(setCartGuitars([]));
+    }
+  }, [dispatch, storageGuitarsString]);
+
+  const guitarsInCartAmount = guitars.reduce((accumulator, currentValue) => accumulator + ((currentValue.amount ? currentValue.amount : 1)), GUITAR_AMOUNT_REDUCER_INITIAL_VALUE);
 
   return(
     <header className="header" id="header">

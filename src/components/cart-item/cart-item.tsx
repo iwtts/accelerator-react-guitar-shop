@@ -1,5 +1,7 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import { ESC_KEY_CODE } from '../../const';
+import { ChangeEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { ESC_KEY_CODE, MAX_GUITAR_AMOUNT_IN_CART, MIN_GUITAR_AMOUNT_IN_CART } from '../../const';
+import { setCartGuitars } from '../../store/actions';
 import { Guitar } from '../../types/guitar';
 import { formatPrice, guitarTypeToReadable } from '../../utils';
 import ModalCartRemove from '../modal/modal-cart-remove/modal-cart-remove';
@@ -19,6 +21,7 @@ function CartItem(props: CartItemProps): JSX.Element {
     amount,
   } = props.item;
 
+  const dispatch = useDispatch();
   const [isModalCartRemoveOpened, setIsOpenModalCartRemoveOpened] = useState(false);
 
   const handleModalCartRemoveOpen = () => {
@@ -47,7 +50,7 @@ function CartItem(props: CartItemProps): JSX.Element {
     }
   };
 
-  const [currentAmount, setCurrentAmount] = useState(amount);
+  // const [currentAmount, setCurrentAmount] = useState(amount);
 
   const storageGuitarsString = sessionStorage.getItem('cartGuitars');
 
@@ -61,14 +64,23 @@ function CartItem(props: CartItemProps): JSX.Element {
 
     const currentGuitar = storageGuitars.find((item) => item.id === props.item.id);
     if (currentGuitar) {
+      if(+evt.target.value > MAX_GUITAR_AMOUNT_IN_CART) {
+        evt.target.value = MAX_GUITAR_AMOUNT_IN_CART.toString();
+        currentGuitar.amount = MAX_GUITAR_AMOUNT_IN_CART;
+      }
+      if(+evt.target.value < MIN_GUITAR_AMOUNT_IN_CART) {
+        evt.target.value = MIN_GUITAR_AMOUNT_IN_CART.toString();
+        currentGuitar.amount = MIN_GUITAR_AMOUNT_IN_CART;
+      }
       currentGuitar.amount = +evt.target.value;
       sessionStorage.setItem('cartGuitars', JSON.stringify(storageGuitars));
+      dispatch(setCartGuitars(storageGuitars));
     }
   };
 
-  useEffect(() => {
-    setCurrentAmount(props.item.amount);
-  }, [props.item.amount, storageGuitarsString]);
+  // useEffect(() => {
+  //   setCurrentAmount(props.item.amount);
+  // }, [props.item.amount, storageGuitarsString]);
 
   return (
     <div className="cart-item">
@@ -89,7 +101,7 @@ function CartItem(props: CartItemProps): JSX.Element {
             <use xlinkHref="#icon-minus"></use>
           </svg>
         </button>
-        <input className="quantity__input" type="number" placeholder={currentAmount?.toString()} id="2-count" name="2-count" max="99" onChange={handleAmountChange}></input>
+        <input className="quantity__input" type="number" placeholder={props.item.amount?.toString()} id="2-count" name="2-count" max="99" onChange={handleAmountChange}></input>
         <button className="quantity__button" aria-label="Увеличить количество">
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-plus"></use>

@@ -1,6 +1,8 @@
 import { Guitar } from '../../../types/guitar';
 import { formatPrice, guitarTypeToReadable } from '../../../utils';
 import FocusTrap from 'focus-trap-react';
+import { useDispatch } from 'react-redux';
+import { setCartGuitars } from '../../../store/actions';
 
 type ModalCartRemoveProps = {
   product: Guitar,
@@ -17,8 +19,9 @@ function ModalCartRemove(props: ModalCartRemoveProps): JSX.Element {
     price,
   } = props.product;
 
+  const dispatch = useDispatch();
+
   const removeFromCart = (product: Guitar) => {
-    // const amountStep = 1;
     const storageGuitarsString = sessionStorage.getItem('cartGuitars');
     let storageGuitars: Guitar[];
 
@@ -28,19 +31,11 @@ function ModalCartRemove(props: ModalCartRemoveProps): JSX.Element {
       storageGuitars = [];
     }
 
-    // const currentGuitar = storageGuitars.find((item) => item.id === product.id);
-
     const filteredArray = storageGuitars.filter((value) => value.id !== product.id);
 
     sessionStorage.setItem('cartGuitars', JSON.stringify(filteredArray));
 
-    // if (!currentGuitar) {
-    //   storageGuitars = [...storageGuitars, {...product, amount: amountStep}];
-    //   sessionStorage.setItem('cartGuitars', JSON.stringify(storageGuitars));
-    // } else {
-    //   currentGuitar.amount = Number(currentGuitar.amount) + amountStep;
-    //   sessionStorage.setItem('cartGuitars', JSON.stringify(storageGuitars));
-    // }
+    dispatch(setCartGuitars(filteredArray));
   };
 
   const handleRemoveFromCart = () => {
