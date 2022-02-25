@@ -1,7 +1,8 @@
-import { SetStateAction, useEffect, useState } from 'react';
+import clsx from 'clsx';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GUITAR_PRICE_REDUCER_INITIAL_VALUE, MAX_PERCENT_VALUE } from '../../const';
-import { setCartGuitars } from '../../store/actions';
+import { setCartGuitars, setDiscountPercent } from '../../store/actions';
 import { postCoupon } from '../../store/api-actions';
 import { selectCartGuitars, selectDiscountPercent } from '../../store/user/user-selectors';
 import { Guitar } from '../../types/guitar';
@@ -17,16 +18,23 @@ function Cart(): JSX.Element {
 
   const [coupon, setCoupon] = useState('');
   const [isCouponAccepted, setIsCouponAccepted] = useState(false);
+  const [isCouponRejected, setIsCouponRejected] = useState(false);
 
   const storageGuitarsString = sessionStorage.getItem('cartGuitars');
+  const storageDiscountString = sessionStorage.getItem('discount');
 
   useEffect(() => {
+    if (storageDiscountString) {
+      dispatch(setDiscountPercent(storageDiscountString));
+    } else {
+      dispatch(setDiscountPercent(''));
+    }
     if (storageGuitarsString) {
       dispatch(setCartGuitars(JSON.parse(storageGuitarsString)));
     } else {
       dispatch(setCartGuitars([]));
     }
-  }, [dispatch, storageGuitarsString]);
+  }, [dispatch, storageDiscountString, storageGuitarsString]);
 
   const dataDiscount = useSelector(selectDiscountPercent);
 
@@ -36,10 +44,13 @@ function Cart(): JSX.Element {
 
   const handleFormSubmit = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
-    dispatch(postCoupon(coupon, () => {setIsCouponAccepted(true);}));
+    dispatch(postCoupon(coupon, () => {setIsCouponAccepted(true);}, () => {setIsCouponRejected(true);}));
   };
 
-  const handleCouponInputChange = (evt: { target: { value: SetStateAction<string>; }; }) => {
+  const handleCouponInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const spaceRegEx = new RegExp(/\s/g);
+
+    evt.target.value = evt.target.value.replace(spaceRegEx, '');
     setCoupon(evt.target.value);
   };
 
@@ -64,13 +75,14 @@ function Cart(): JSX.Element {
                     <label className="visually-hidden">Промокод</label>
                     <input type="text" placeholder="Введите промокод" id="coupon" name="coupon" onChange={handleCouponInputChange}></input>
                     {isCouponAccepted && <p className="form-input__message form-input__message--success">Промокод принят</p>}
+                    {isCouponRejected && <p className="form-input__message form-input__message--error">неверный промокод</p>}
                   </div>
                   <button className="button button--big coupon__button">Применить</button>
                 </form>
               </div>
               <div className="cart__total-info">
                 <p className="cart__total-item"><span className="cart__total-value-name">Всего:</span><span className="cart__total-value">{`${formatPrice(totalPrice)} ₽`}</span></p>
-                <p className="cart__total-item"><span className="cart__total-value-name">Скидка:</span><span className="cart__total-value cart__total-value--bonus">{`- ${formatPrice(discount)} ₽`}</span></p>
+                <p className="cart__total-item"><span className="cart__total-value-name">Скидка:</span><span className={clsx('cart__total-value', discount && 'cart__total-value--bonus')}>{`${discount ? '-' : ''}${formatPrice(discount)} ₽`}</span></p>
                 <p className="cart__total-item"><span className="cart__total-value-name">К оплате:</span><span className="cart__total-value cart__total-value--payment">{`${formatPrice(priceToPay)} ₽`}</span></p>
                 <button className="button button--red button--big cart__order-button">Оформить заказ</button>
               </div>

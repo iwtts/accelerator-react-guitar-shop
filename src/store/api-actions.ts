@@ -56,17 +56,19 @@ const postReview = ({comment, rating, guitarId, advantage, disadvantage, userNam
       });
   };
 
-const postCoupon = (couponString: string, onSuccessCb?: () => void): ThunkActionResult =>
+const postCoupon = (couponString: string, onSuccessCb?: () => void, onErrorCb?: () => void): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     await api.post(`${ApiRoute.Coupon}`, { coupon: couponString })
       .then(({data}) => {
         if(data){
           dispatch(setDiscountPercent(data));
+          sessionStorage.setItem('discount', data);
           onSuccessCb?.();
         }
       })
       .catch(() => {
         toast.error(ERROR_MESSAGE);
+        onErrorCb?.();
       });
   };
 
