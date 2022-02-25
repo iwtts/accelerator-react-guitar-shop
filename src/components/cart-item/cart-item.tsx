@@ -136,7 +136,7 @@ function CartItem(props: CartItemProps): JSX.Element {
               <use xlinkHref="#icon-minus"></use>
             </svg>
           </button>
-          <input className="quantity__input" type="number" placeholder={props.item.amount?.toString()} value={props.item.amount?.toString()} id="2-count" name="2-count" max="99" onChange={handleAmountChange}></input>
+          <input className="quantity__input" type="number" placeholder={props.item.amount?.toString()} id="2-count" name="2-count" max="99" onBlur={handleAmountChange}></input>
           <button className="quantity__button" aria-label="Увеличить количество" onClick={handlePlusClick}>
             <svg width="8" height="8" aria-hidden="true">
               <use xlinkHref="#icon-plus"></use>
