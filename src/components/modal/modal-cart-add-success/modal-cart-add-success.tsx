@@ -31,7 +31,7 @@ function ModalCartAddSuccess(props: ModalCartAddSuccessProps): JSX.Element {
       <div className="modal is-active modal--success modal-for-ui-kit">
         <FocusTrap>
           <div className="modal__wrapper">
-            <div className="modal__overlay" data-close-modal></div>
+            <div className="modal__overlay" data-close-modal onClick={props.onModalClose}></div>
             <div className="modal__content">
               <svg className="modal__icon" width="26" height="20" aria-hidden="true">
                 <use xlinkHref="#icon-success"></use>

@@ -42,9 +42,19 @@ function Cart(): JSX.Element {
   const discount = totalPrice * (+dataDiscount / MAX_PERCENT_VALUE);
   const priceToPay = totalPrice - discount;
 
+  const onCouponAccepted = () => {
+    setIsCouponAccepted(true);
+    setIsCouponRejected(false);
+  };
+
+  const onCouponRejected = () => {
+    setIsCouponAccepted(false);
+    setIsCouponRejected(true);
+  };
+
   const handleFormSubmit = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
-    dispatch(postCoupon(coupon, () => {setIsCouponAccepted(true);}, () => {setIsCouponRejected(true);}));
+    dispatch(postCoupon(coupon, onCouponAccepted, onCouponRejected));
   };
 
   const handleCouponInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
