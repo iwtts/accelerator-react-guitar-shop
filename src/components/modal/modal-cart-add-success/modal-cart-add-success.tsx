@@ -22,7 +22,7 @@ function ModalCartAddSuccess(props: ModalCartAddSuccessProps): JSX.Element {
   return(
     <div
       style={{
-        position: 'relative',
+        position: 'absolute',
         width: '550px',
         height: '440px',
         marginBottom: '50px',

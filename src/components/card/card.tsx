@@ -75,29 +75,31 @@ function Card(props : CardProps): JSX.Element {
   };
 
   return (
-    <div className="product-card">
-      <img src={`../${previewImg}`} width="75" height="190" alt={name}>
-      </img>
-      <div className="product-card__info">
-        <RatingPanel
-          type={RatingPanelType.Card}
-          rating={rating}
-          rateCount={comments?.length}
-        />
-        <p
-          className="product-card__title"
-          data-testid="card-title"
-        >
-          {name}
-        </p>
-        <p className="product-card__price">
-          <span className="visually-hidden">Цена:</span>{formatPrice(price)} ₽
-        </p>
-      </div>
-      <div className="product-card__buttons">
-        <a className="button button--mini" href={`${AppRoute.Catalog}/${id}`}>Подробнее</a>
-        {!isInCart && <a className="button button--red button--mini button--add-to-cart" href="/" onClick={handleModalCartAddOpen}>Купить</a>}
-        {isInCart && <a className="button button--red-border button--mini button--in-cart" href={AppRoute.Cart}>В Корзине</a>}
+    <>
+      <div className="product-card">
+        <img src={`../${previewImg}`} width="75" height="190" alt={name}>
+        </img>
+        <div className="product-card__info">
+          <RatingPanel
+            type={RatingPanelType.Card}
+            rating={rating}
+            rateCount={comments?.length}
+          />
+          <p
+            className="product-card__title"
+            data-testid="card-title"
+          >
+            {name}
+          </p>
+          <p className="product-card__price">
+            <span className="visually-hidden">Цена:</span>{formatPrice(price)} ₽
+          </p>
+        </div>
+        <div className="product-card__buttons">
+          <a className="button button--mini" href={`${AppRoute.Catalog}/${id}`}>Подробнее</a>
+          {!isInCart && <a className="button button--red button--mini button--add-to-cart" href="/" onClick={handleModalCartAddOpen}>Купить</a>}
+          {isInCart && <a className="button button--red-border button--mini button--in-cart" href={AppRoute.Cart}>В Корзине</a>}
+        </div>
       </div>
       {isModalCartAddOpened &&
       <ModalCartAdd
@@ -109,7 +111,7 @@ function Card(props : CardProps): JSX.Element {
       <ModalCartAddSuccess
         onModalClose={handleModalCartAddSuccessClose}
       />}
-    </div>
+    </>
   );
 }
 
