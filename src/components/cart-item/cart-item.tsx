@@ -22,7 +22,9 @@ function CartItem(props: CartItemProps): JSX.Element {
   } = props.item;
 
   const dispatch = useDispatch();
+
   const [isModalCartRemoveOpened, setIsOpenModalCartRemoveOpened] = useState(false);
+  const [amountInputValue, setInputValue] = useState(amount || '');
 
   const handleModalCartRemoveOpen = () => {
     setIsOpenModalCartRemoveOpened(true);
@@ -52,7 +54,7 @@ function CartItem(props: CartItemProps): JSX.Element {
 
   const storageGuitarsString = sessionStorage.getItem('cartGuitars');
 
-  const handleAmountChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  const AmountInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     let storageGuitars: Guitar[];
     if (storageGuitarsString) {
       storageGuitars = JSON.parse(storageGuitarsString);
@@ -62,17 +64,29 @@ function CartItem(props: CartItemProps): JSX.Element {
 
     const currentGuitar = storageGuitars.find((item) => item.id === props.item.id);
     if (currentGuitar) {
-      if(+evt.target.value > MAX_GUITAR_AMOUNT_IN_CART) {
-        evt.target.value = MAX_GUITAR_AMOUNT_IN_CART.toString();
-        currentGuitar.amount = MAX_GUITAR_AMOUNT_IN_CART;
+      if (evt.target.value === '') {
+        setInputValue('');
+      } else {
+        if (+evt.target.value === 0) {
+          evt.target.value = MIN_GUITAR_AMOUNT_IN_CART.toString();
+        }
+        if (+evt.target.value < 0) {
+          evt.target.value = Math.abs(+evt.target.value).toString();
+        }
+        if (+evt.target.value >  MAX_GUITAR_AMOUNT_IN_CART) {
+          evt.target.value =  MAX_GUITAR_AMOUNT_IN_CART.toString();
+        }
+        currentGuitar.amount = +evt.target.value;
+        sessionStorage.setItem('cartGuitars', JSON.stringify(storageGuitars));
+        dispatch(setCartGuitars(storageGuitars));
+        setInputValue(+evt.target.value.toString().replace(/^0+/, ''));
       }
-      if(+evt.target.value < MIN_GUITAR_AMOUNT_IN_CART) {
-        evt.target.value = MIN_GUITAR_AMOUNT_IN_CART.toString();
-        currentGuitar.amount = MIN_GUITAR_AMOUNT_IN_CART;
-      }
-      currentGuitar.amount = +evt.target.value;
-      sessionStorage.setItem('cartGuitars', JSON.stringify(storageGuitars));
-      dispatch(setCartGuitars(storageGuitars));
+    }
+  };
+
+  const handleAmountInputBlur = () => {
+    if (amountInputValue === '') {
+      setInputValue(Number(amount));
     }
   };
 
@@ -93,6 +107,7 @@ function CartItem(props: CartItemProps): JSX.Element {
       currentGuitar.amount = currentGuitar.amount - AMOUNT_CHANGE_STEP;
       sessionStorage.setItem('cartGuitars', JSON.stringify(storageGuitars));
       dispatch(setCartGuitars(storageGuitars));
+      setInputValue(currentGuitar.amount);
     }
   };
 
@@ -113,13 +128,14 @@ function CartItem(props: CartItemProps): JSX.Element {
       }
       sessionStorage.setItem('cartGuitars', JSON.stringify(storageGuitars));
       dispatch(setCartGuitars(storageGuitars));
+      setInputValue(currentGuitar.amount);
     }
   };
 
   return (
     <>
       <div className="cart-item">
-        <button className="cart-item__close-button button-cross" type="button" aria-label="Удалить" onClick={handleModalCartRemoveOpen}><span className="button-cross__icon"></span><span className="cart-item__close-button-interactive-area"></span>
+        <button className="cart-item__close-button button-cross" type="button" aria-label="Удалить" onBlur={handleModalCartRemoveOpen}><span className="button-cross__icon"></span><span className="cart-item__close-button-interactive-area"></span>
         </button>
         <div className="cart-item__image">
           <img src={`../${previewImg}`} width="55" height="130" alt={name}></img>
@@ -136,7 +152,17 @@ function CartItem(props: CartItemProps): JSX.Element {
               <use xlinkHref="#icon-minus"></use>
             </svg>
           </button>
-          <input className="quantity__input" type="number" placeholder={props.item.amount?.toString()} id="2-count" name="2-count" max="99" onBlur={handleAmountChange}></input>
+          <input
+            className="quantity__input"
+            type="number"
+            value={amountInputValue}
+            onBlur={handleAmountInputBlur}
+            onChange={AmountInputChange}
+            id="2-count"
+            name="2-count"
+            max="99"
+          >
+          </input>
           <button className="quantity__button" aria-label="Увеличить количество" onClick={handlePlusClick}>
             <svg width="8" height="8" aria-hidden="true">
               <use xlinkHref="#icon-plus"></use>
